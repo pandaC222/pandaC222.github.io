@@ -27,7 +27,7 @@ export const siteConfig: SiteConfig = {
 	title: "pandac'blog",
 	subtitle: "希望有朝一日成为算法大蛇",
 	siteURL: "https://pandac222.github.io/", // 请替换为你的站点URL，以斜杠结尾
-	siteStartDate: "2025-01-01", // 站点开始运行日期，用于站点统计组件计算运行天数
+	siteStartDate: "2026-04-04", // 站点开始运行日期，用于站点统计组件计算运行天数
 
 	timeZone: SITE_TIMEZONE,
 
@@ -162,14 +162,14 @@ export const siteConfig: SiteConfig = {
 
 		homeText: {
 			enable: true, // 在主页显示自定义文本
-			title: "わたしの部屋", // 主页横幅主标题
+			title: "pandac的blog", // 主页横幅主标题
 
 			subtitle: [
-				"特別なことはないけど、君がいると十分です",
-				"今でもあなたは私の光",
-				"君ってさ、知らないうちに私の毎日になってたよ",
-				"君と話すと、なんか毎日がちょっと楽しくなるんだ",
-				"今日はなんでもない日。でも、ちょっとだけいい日",
+				// "特別なことはないけど、君がいると十分です",
+				// "今でもあなたは私の光",
+				// "君ってさ、知らないうちに私の毎日になってたよ",
+				// "君と話すと、なんか毎日がちょっと楽しくなるんだ",
+				"希望有朝一日成为算法大蛇",
 			],
 			typewriter: {
 				enable: true, // 启用副标题打字机效果
@@ -369,8 +369,8 @@ export const navBarConfig: NavBarConfig = {
 
 export const profileConfig: ProfileConfig = {
 	avatar: "assets/images/avatar.webp", // 相对于 /src 目录。如果以 '/' 开头，则相对于 /public 目录
-	name: "まつざか ゆき",
-	bio: "世界は大きい、君は行かなければならない",
+	name: "测试1",
+	bio: "测试2",
 	typewriter: {
 		enable: true, // 启用个人简介打字机效果
 		speed: 80, // 打字速度（毫秒）
