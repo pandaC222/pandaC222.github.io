@@ -43,7 +43,7 @@ export const siteConfig: SiteConfig = {
 		anime: false, // 番剧页面开关
 		diary: true, // 日记页面开关
 		friends: false, // 友链页面开关
-		projects: false, // 项目页面开关
+		projects: true, // 项目页面开关
 		skills: true, // 技能页面开关
 		timeline: true, // 时间线页面开关
 		albums: true, // 相册页面开关
@@ -289,12 +289,12 @@ export const navBarConfig: NavBarConfig = {
 					external: true,
 					icon: "fa7-brands:bilibili",
 				},
-				{
-					name: "Gitee",
-					url: "https://gitee.com/matsuzakayuki/Mizuki",
-					external: true,
-					icon: "mdi:git",
-				},
+				// {
+				// 	name: "Gitee",
+				// 	url: "https://gitee.com/matsuzakayuki/Mizuki",
+				// 	external: true,
+				// 	icon: "mdi:git",
+				// },
 			],
 		},
 		{
@@ -302,11 +302,11 @@ export const navBarConfig: NavBarConfig = {
 			url: "/content/",
 			icon: "material-symbols:person",
 			children: [
-				{
-					name: "Anime",
-					url: "/anime/",
-					icon: "material-symbols:movie",
-				},
+				// {
+				// 	name: "Anime",
+				// 	url: "/anime/",
+				// 	icon: "material-symbols:movie",
+				// },
 				{
 					name: "Diary",
 					url: "/diary/",
@@ -317,31 +317,31 @@ export const navBarConfig: NavBarConfig = {
 					url: "/albums/",
 					icon: "material-symbols:photo-library",
 				},
-				{
-					name: "Devices",
-					url: "/devices/",
-					icon: "material-symbols:devices",
-					external: false,
-				},
+				// {
+				// 	name: "Devices",
+				// 	url: "/devices/",
+				// 	icon: "material-symbols:devices",
+				// 	external: false,
+				// },
 			],
 		},
-		{
-			name: "About",
-			url: "/content/",
-			icon: "material-symbols:info",
-			children: [
-				{
-					name: "About",
-					url: "/about/",
-					icon: "material-symbols:person",
-				},
-				{
-					name: "Friends",
-					url: "/friends/",
-					icon: "material-symbols:group",
-				},
-			],
-		},
+		// {
+		// 	name: "About",
+		// 	url: "/content/",
+		// 	icon: "material-symbols:info",
+		// 	children: [
+		// 		{
+		// 			name: "About",
+		// 			url: "/about/",
+		// 			icon: "material-symbols:person",
+		// 		},
+		// 		{
+		// 			name: "Friends",
+		// 			url: "/friends/",
+		// 			icon: "material-symbols:group",
+		// 		},
+		// 	],
+		// },
 		{
 			name: "Others",
 			url: "#",
