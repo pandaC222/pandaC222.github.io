@@ -535,13 +535,13 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 			// 动画延迟时间
 			animationDelay: 50,
 		},
-		{
-			// 组件类型：侧栏音乐组件
-			type: "music-sidebar",
-			position: "sticky",
-			class: "onload-animation",
-			animationDelay: 100,
-		},
+		// {
+		// 	// 组件类型：侧栏音乐组件
+		// 	type: "music-sidebar",
+		// 	position: "sticky",
+		// 	class: "onload-animation",
+		// 	animationDelay: 100,
+		// },
 		{
 			// 组件类型：分类组件
 			type: "categories",
@@ -607,7 +607,7 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 	// 侧栏组件布局配置
 	components: {
 		left: ["profile", "announcement", "tags", "card-toc"],
-		right: ["site-stats", "calendar", "categories", "music-sidebar"],
+		right: ["site-stats", "calendar", "categories"],
 		drawer: [
 			"profile",
 			"announcement",
