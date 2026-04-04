@@ -5,6 +5,7 @@ description: "目前只有A~F"
 image: /assets/home/codeforce.webp
 tags: ["算法","codeforce"]
 category: "codeforce"
+
 ---
 
 比赛链接：https://codeforces.com/contest/2218
@@ -17,6 +18,10 @@ cpp版本是我赛时写的
 
 我们只需要输出67即可
 
+
+
+py
+
 ~~~python
 t = int(input())
 for _ in range(t):
@@ -25,26 +30,10 @@ for _ in range(t):
 
 
 
-###  B. The 67th 6-7 Integer Problem 
-
-我们只需要先对数组排序再依次取前6个数的相反数即可
-
-
-py
-~~~python
-t = int(input())
-for _ in range(t):
-    a = list(map(int,input().split()))
-    a.sort()
-    ans = 0
-    for i in range(6):
-        ans -= a[i]
-    print(ans + a[-1])
-~~~
-
 
 
 cpp
+
 ~~~cpp
 #include<bits/stdc++.h>
 using namespace std;
@@ -70,12 +59,68 @@ signed main(){
 
 
 
+###  B. The 67th 6-7 Integer Problem 
+
+我们只需要先对数组排序再依次取前6个数的相反数即可
+
+
+
+
+py
+
+~~~python
+t = int(input())
+for _ in range(t):
+    a = list(map(int,input().split()))
+    a.sort()
+    ans = 0
+    for i in range(6):
+        ans -= a[i]
+    print(ans + a[-1])
+~~~
+
+
+
+
+
+cpp
+
+~~~cpp
+#include<bits/stdc++.h>
+using namespace std;
+#define int long long
+#define ld long double
+#define debug(x) cerr << #x << ": " << x << '\n';
+const int INF = 0x3f3f3f3f3f3f3f3f;
+
+void solve(){
+    vector<int> a(8);
+    for(int i=1;i<=7;i++) cin>>a[i];
+    sort(a.begin()+1,a.end());
+    int sum=0;
+    for(int i=1;i<=6;i++) sum-=a[i];
+    cout<<sum+a[7]<<"\n"; 
+}
+signed main(){
+    std::ios_base::sync_with_stdio(false);
+    std::cin.tie(nullptr);
+    int t = 1;
+    cin>>t;
+    while(t--){
+        solve();
+    }return 0;
+}
+~~~
+
+
+
 ###  C. The 67th Permutation Problem 
 
 一道简单的构造题，通过观察不难发现，我们只需要把从小到大连续的两个大数放到一块，第三个数放从1开始的小数，这样可以取到最大，例如6 5 1 4 3 2
 
 
 py
+
 ~~~python
 t = int(input())
 for _ in range(t):
@@ -91,7 +136,10 @@ for _ in range(t):
 
 
 
+
+
 cpp
+
 ~~~cpp
 #include<bits/stdc++.h>
 using namespace std;
@@ -130,7 +178,10 @@ signed main(){
 第10001个质数大约是104729，不会超出上限。
 
 
+
+
 py
+
 ~~~python
 import sys
 input = sys.stdin.readline
@@ -156,7 +207,10 @@ for _ in range(t):
 
 
 
+
+
 cpp
+
 ~~~cpp
 #include<bits/stdc++.h>
 using namespace std;
@@ -197,7 +251,10 @@ int main(){
 首先知道a ^ a = 0 ,0 ^ a = a,我们根据题意模拟两个样例，会发现，在不断异或的情况下，前n-2个数会抵消，最后只剩下两个数异或，所以答案为数组中两个数异或最大值，时间复杂度为O(n*n),对于本题完全足够
 
 
+
+
 py
+
 ~~~python
 import sys
 input = sys.stdin.readline
@@ -214,7 +271,10 @@ for _ in range(t):
 
 
 
+
+
 cpp
+
 ~~~cpp
 #include<bits/stdc++.h>
 using namespace std;
@@ -253,7 +313,10 @@ signed main(){
 本题是一道构造题，我们通过观察，最简单的构造方式就是只挂一个点或者两个点，首先根节点会贡献一个奇数或者偶数节点，这个由总数x+y决定，先减去这个贡献，单个点与根节点相连，会贡献一个奇数节点，两个点与根结构相连会贡献一个奇数节点和一个偶数节点，所以偶数<=奇数节点，并且减去根贡献后，奇数偶数节点数需要大于0，不满足则输出NO，满足按以上方式构造即可
 
 
+
+
 py
+
 ~~~python
 import sys
 input = sys.stdin.readline
@@ -281,7 +344,10 @@ for _ in range(t):
 
 
 
+
+
 cpp
+
 ~~~cpp
 #include<bits/stdc++.h>
 using namespace std;
@@ -322,4 +388,3 @@ signed main(){
     }return 0;
 }
 ~~~
-
