@@ -5,7 +5,7 @@ description: "How to use this blog template."
 image: "./cover.webp"
 tags: [ "博客"]
 category: Guides
-draft: false
+draft: ture
 ---
 
 
