@@ -41,7 +41,7 @@ export const siteConfig: SiteConfig = {
 	// 特色页面开关配置（关闭未使用的页面有助于提升 SEO，关闭后请记得在 navbarConfig 中移除对应链接）
 	featurePages: {
 		anime: false, // 番剧页面开关
-		diary: true, // 日记页面开关
+		diary: false, // 日记页面开关
 		friends: false, // 友链页面开关
 		projects: true, // 项目页面开关
 		skills: true, // 技能页面开关
@@ -309,11 +309,11 @@ export const navBarConfig: NavBarConfig = {
 				// 	url: "/anime/",
 				// 	icon: "material-symbols:movie",
 				// },
-				{
-					name: "Diary",
-					url: "/diary/",
-					icon: "material-symbols:book",
-				},
+				// {
+				// 	name: "Diary",
+				// 	url: "/diary/",
+				// 	icon: "material-symbols:book",
+				// },
 				{
 					name: "Gallery",
 					url: "/albums/",
@@ -489,7 +489,7 @@ export const announcementConfig: AnnouncementConfig = {
 
 export const musicPlayerConfig: MusicPlayerConfig = {
 	enable: false, // 启用音乐播放器功能
-	showFloatingPlayer: true, // 显示悬浮播放器 UI
+	showFloatingPlayer: false, // 显示悬浮播放器 UI
 	floatingEntryMode: "fab", // 悬浮入口模式："default" 为独立悬浮播放器，"fab" 为集成到通用 FAB 组
 	mode: "local", // 音乐播放器模式，可选 "local" 或 "meting"
 	meting_api:
