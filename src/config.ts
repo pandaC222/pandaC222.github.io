@@ -472,7 +472,7 @@ export const commentConfig: CommentConfig = {
 };
 
 export const shareConfig: ShareConfig = {
-	enable: true, // 启用分享功能
+	enable: false, // 启用分享功能
 };
 
 export const announcementConfig: AnnouncementConfig = {
@@ -700,7 +700,7 @@ export const relatedPostsConfig: RelatedPostsConfig = {
 
 // 随机文章配置
 export const randomPostsConfig: RandomPostsConfig = {
-	enable: true,
+	enable: false,
 	maxCount: 5,
 };
 
