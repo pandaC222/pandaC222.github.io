@@ -1,34 +1,14 @@
 ---
-【必填】文章标题
-title: 牛客竞赛每日一题
-
-【必填】发布日期，格式必须为 YYYY-MM-DD
-published: "2026-04-05 01:49:00"
-
-【可选】文章描述，会显示在首页卡片上
-description: 如果不太难并且很有意义的题我就会更新（可能
-
-【可选】文章封面图路径
-1. 外部图片：http://...
-2. 本地图片：/assets/images/xxx.png (放在 public 文件夹下)
-image: /assets/home/nowcoder.webp
-
-【可选】文章标签，用英文逗号分隔
-tags: [算法,每日一题]
-
-【可选】文章分类
-category: 算法
-
-【可选】是否置顶，true 为置顶
+title: "牛客竞赛每日一题"
+published: 2026-04-05T01:49:00+08:00
+description: "如果不太难并且很有意义的题我就会更新（可能）"
+image: "/assets/home/nowcoder.webp"
+tags: ["算法", "每日一题"]
+category: "算法"
 pinned: false
-
-【可选】置顶优先级，数字越小越靠前 (0, 1, 2...)
 priority: 0
-
-【必填】草稿状态。true 为隐藏，发布时必须改为 false
 draft: false
 ---
-
 # 	2026.4.4树上行走
 
 题目链接：https://www.nowcoder.com/practice/0516ea09ce3540dd9f23fbf6f9ab4754?channelPut=tracker2
