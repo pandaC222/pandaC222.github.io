@@ -201,7 +201,7 @@ export const siteConfig: SiteConfig = {
 	favicon: [
 		// 留空以使用默认 favicon
 		{
-		  src: '/favicon/logo.png',    // 图标文件路径
+		  src: '/favicon/QQ20260404-181343.png',    // 图标文件路径
 		  theme: 'light',              // 可选，指定主题 'light' | 'dark'
 		  sizes: '32x32',              // 可选，图标大小
 		}
