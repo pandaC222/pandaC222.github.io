@@ -3,7 +3,7 @@ title: 我的第二篇博客
 published: 2026-04-04
 description: 仍然仅测试一下功能。
 image: /assets/home/nhome.webp
-tags: [博客,算法，日记]
+tags: [博客,算法,日记]
 category: 测试，算法
 ---
 
