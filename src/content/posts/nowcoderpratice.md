@@ -4,7 +4,7 @@ published: 2026-04-05T01:49:00+08:00
 description: "如果不太难并且很有意义的题我就会更新（可能）"
 image: "/assets/home/nowcoder.webp"
 tags: ["算法", "每日一题"]
-category: "算法"
+category: "牛客"
 pinned: false
 priority: 0
 draft: false
