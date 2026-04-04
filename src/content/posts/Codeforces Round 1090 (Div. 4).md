@@ -40,6 +40,7 @@ for _ in range(t):
     print(ans + a[-1])
 ~~~
 
+
 ~~~cpp
 #include<bits/stdc++.h>
 using namespace std;
@@ -81,6 +82,7 @@ for _ in range(t):
         mx -= 2
     print()
 ~~~
+
 
 ~~~cpp
 #include<bits/stdc++.h>
@@ -142,6 +144,7 @@ for _ in range(t):
     print(*ans)
 ~~~
 
+
 ~~~cpp
 #include<bits/stdc++.h>
 using namespace std;
@@ -194,6 +197,7 @@ for _ in range(t):
             ans = max(ans,a[i]^a[j])
     print(ans)
 ~~~
+
 
 ~~~cpp
 #include<bits/stdc++.h>
@@ -256,6 +260,7 @@ for _ in range(t):
         print(f"{1} {cur}")
         cur += 1
 ~~~
+
 
 ~~~cpp
 #include<bits/stdc++.h>
