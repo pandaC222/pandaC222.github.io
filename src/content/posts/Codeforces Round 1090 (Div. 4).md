@@ -1,7 +1,7 @@
 ---
 title: "Codeforces Round 1090 (Div.4)题解"
 published: 2026-04-05
-description: "目前只有A~F"
+description: "G只写了代码"
 image: /assets/home/codeforce.webp
 tags: ["算法","codeforce"]
 category: "codeforce"
@@ -388,3 +388,72 @@ signed main(){
     }return 0;
 }
 ~~~
+
+
+
+###  G. The 67th Iteration of "Counting is Fun" 
+
+预处理前缀和
+
+cpp
+
+~~~cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+#define int long long
+#define ld long double
+#define debug(x) cerr << #x << ": " << x << '\n';
+
+const int INF = 0x3f3f3f3f3f3f3f3f;
+const int mod = 676767677;
+
+void solve() {
+    int n, m;
+    cin>>n>>m;
+
+    vector<int> b(n + 2, INF);
+    vector<int> c(n + 1, 0);
+    for (int i = 1; i <= n; i++) {
+        cin >> b[i];
+        c[b[i]]++;
+    }
+
+    vector<int> s(n + 1, 0);
+    s[0] = c[0];
+    for (int i = 1; i <= n; i++) {
+        s[i] = s[i - 1] + c[i];
+    }
+
+    int ans = 1;
+    for (int i = 1; i <= n; i++) {
+        if (b[i] == 0) continue;
+
+        int mn = min(b[i - 1], b[i + 1]);
+        if (mn >= b[i]) {
+            cout << 0 << "\n";
+            return;
+        }
+
+        if (mn == b[i] - 1) {
+            ans = (ans * s[b[i] - 1]) % mod;
+        } else {
+            ans = (ans * (s[b[i] - 1] - s[b[i] - 2])) % mod;
+        }
+    }
+    cout << (ans + mod) % mod << "\n";
+}
+
+signed main() {
+    std::ios_base::sync_with_stdio(false);
+    std::cin.tie(nullptr);
+
+    int t = 1;
+    cin >> t;
+    while (t--) {
+        solve();
+    }
+    return 0;
+}
+~~~
+
