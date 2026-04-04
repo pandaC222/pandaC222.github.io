@@ -131,12 +131,12 @@ export const siteConfig: SiteConfig = {
 				"/assets/desktop-banner/4.webp",
 				"/assets/desktop-banner/6.webp",
 			], // 桌面横幅图片
-			mobile: [
-				// "/assets/mobile-banner/5.webp",
-				// "/assets/mobile-banner/2.webp",
-				// "/assets/mobile-banner/3.webp",
-				// "/assets/mobile-banner/4.webp",
-			], // 移动横幅图片
+			// mobile: [
+			// 	// "/assets/mobile-banner/5.webp",
+			// 	// "/assets/mobile-banner/2.webp",
+			// 	// "/assets/mobile-banner/3.webp",
+			// 	// "/assets/mobile-banner/4.webp",
+			// ], // 移动横幅图片
 		}, // 使用本地横幅图片
 
 		position: "center", // 等同于 object-position，仅支持 'top', 'center', 'bottom'。默认为 'center'
@@ -166,10 +166,6 @@ export const siteConfig: SiteConfig = {
 			title: "pandac的blog", // 主页横幅主标题
 
 			subtitle: [
-				// "特別なことはないけど、君がいると十分です",
-				// "今でもあなたは私の光",
-				// "君ってさ、知らないうちに私の毎日になってたよ",
-				// "君と話すと、なんか毎日がちょっと楽しくなるんだ",
 				"希望有朝一日成为算法大蛇",
 			],
 			typewriter: {
@@ -252,12 +248,12 @@ export const fullscreenWallpaperConfig: FullscreenWallpaperConfig = {
 			"/assets/desktop-banner/4.webp",
 			"/assets/desktop-banner/6.webp",
 		], // 桌面横幅图片
-		mobile: [
-			// "/assets/mobile-banner/5.webp",
-			// "/assets/mobile-banner/2.webp",
-			// "/assets/mobile-banner/3.webp",
-			// "/assets/mobile-banner/4.webp",
-		], // 移动横幅图片
+		// mobile: [
+		// 	// "/assets/mobile-banner/5.webp",
+		// 	// "/assets/mobile-banner/2.webp",
+		// 	// "/assets/mobile-banner/3.webp",
+		// 	// "/assets/mobile-banner/4.webp",
+		// ], // 移动横幅图片
 	}, // 使用本地横幅图片
 	position: "center", // 壁纸位置，等同于 object-position
 	carousel: {
@@ -478,7 +474,7 @@ export const shareConfig: ShareConfig = {
 export const announcementConfig: AnnouncementConfig = {
 	title: "公告", // 公告标题，填空使用i18n字符串Key.announcement
 	content: "刚刚启用，还未完善", // 公告内容
-	closable: true, // 允许用户关闭公告
+	closable: false, // 允许用户关闭公告
 	link: {
 		enable: true, // 启用链接
 		text: "Learn More", // 链接文本
