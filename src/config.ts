@@ -165,9 +165,7 @@ export const siteConfig: SiteConfig = {
 			enable: true, // 在主页显示自定义文本
 			title: "pandac的blog", // 主页横幅主标题
 
-			subtitle: [
-				"希望有朝一日成为算法大蛇",
-			],
+			subtitle: ["希望有朝一日成为算法大蛇"],
 			typewriter: {
 				enable: true, // 启用副标题打字机效果
 
@@ -201,10 +199,10 @@ export const siteConfig: SiteConfig = {
 	favicon: [
 		// 留空以使用默认 favicon
 		{
-		  src: '/favicon/QQ20260404-181343.png',    // 图标文件路径
-		  theme: 'light',              // 可选，指定主题 'light' | 'dark'
-		  sizes: '32x32',              // 可选，图标大小
-		}
+			src: "/favicon/QQ20260404-181343.png", // 图标文件路径
+			theme: "light", // 可选，指定主题 'light' | 'dark'
+			sizes: "32x32", // 可选，图标大小
+		},
 	],
 
 	// 字体配置
