@@ -89,3 +89,59 @@ signed main(){
 }
 ~~~
 
+
+
+
+# 2026.4.6 **小苯的麦克斯** 
+
+题目链接：https://www.nowcoder.com/practice/de5b60b23a014f1bb66b8164faea3d0d?channelPut=tracker2
+
+知识点：mex
+
+mex: **最小未出现非负整数**
+
+我们需要求选择一个连续区间最大的max-mex值，这个区间最小长度为2，我们由mex的定义知对于一个区间只有0，1，2，3，4这种连续的数才能使mex不短增大，如果区间最小值为1，那mex就是0了，因此我们很容易得到取两个区间时可以使mex最小，因此我们可以在max两边取区间，同时考虑边界情况，如果max=min的情况得特判，如果max=min=0，输出-1;如果最大值为0，也输出-1，其他情况正常判断就行
+
+这样判断写起来好像比较麻烦，其实可以每次取两个区间求它们的max-mex同时用ans维护最大值即可，这样写起来比较简短，我只给出第一种解法
+
+代码如下（py版）：
+
+~~~python
+import sys
+input = sys.stdin.readline
+t = int(input())
+for _ in range(t):
+    n = int(input())
+    a = list(map(int,input().split()))
+    mx = max(a)
+    mn = min(a)
+    ans = 0
+    if mx == 0:
+        print(-1)
+        continue
+    if mx == 1:
+        if mn == 1:
+            print(1)
+        else:
+            print(-1)
+        continue
+    if a[0] == mx:
+        if a[1] == 0:
+            ans = max(mx - 1, ans)
+        else:
+            ans = max(mx, ans)
+    if a[-1] == mx:
+        if a[-2] == 0:
+            ans = max(mx - 1, ans)
+        else:
+            ans = max(mx, ans)
+    for i in range(1,n-1):
+        if a[i] == mx:
+            mn = min(a[i+1], a[i-1])
+            if mn == 0:
+                ans = max(mx - 1, ans)
+            else:
+                ans = max(mx, ans)
+    print(ans)
+~~~
+
