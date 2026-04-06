@@ -3,8 +3,8 @@ title: "Codeforces Round 1090 (Div.4)题解"
 published: 2026-04-05
 description: "G只写了代码"
 image: /assets/home/codeforce.webp
-tags: ["算法","codeforce"]
-category: "codeforce"
+tags: ["算法","Codeforces"]
+category: "Codeforces"
 
 ---
 
