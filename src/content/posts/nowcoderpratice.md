@@ -21,7 +21,7 @@ merge时将size小的往size大的上面合并有利于降低树高。
 merge时顺便把max_size记录下来，可省去遍历。
 ans本来就是从小到大的，不需要重排序。 
 
-代码如下：
+代码如下（cpp）：
 
 ~~~cpp
 #include<bits/stdc++.h>
@@ -91,7 +91,6 @@ signed main(){
 
 
 
-
 # 2026.4.6 **小苯的麦克斯** 
 
 题目链接：https://www.nowcoder.com/practice/de5b60b23a014f1bb66b8164faea3d0d?channelPut=tracker2
@@ -104,7 +103,7 @@ mex: **最小未出现非负整数**
 
 这样判断写起来好像比较麻烦，其实可以每次取两个区间求它们的max-mex同时用ans维护最大值即可，这样写起来比较简短，我只给出第一种解法
 
-代码如下（py版）：
+代码如下（py）：
 
 ~~~python
 import sys
@@ -143,5 +142,33 @@ for _ in range(t):
             else:
                 ans = max(mx, ans)
     print(ans)
+~~~
+
+
+
+# 2026.4.7 **计算一年中的第几天** 
+
+题目链接：https://www.nowcoder.com/practice/178aa3dafb144bb8b0445edb5e9b812a?channelPut=tracker2
+
+水题
+
+我们判断是否使闰年，闰年(Y % 4 == 0 && Y % 100 != 0 || Y % 400 == 0)2月天数为29天
+
+代码如下（cpp）：
+
+~~~cpp
+#include <bits/stdc++.h>
+using namespace std;
+int m[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+int main() {
+    int Y, M, D, d;
+    while (cin>>Y>>M>>D) {
+        d = D;
+        for (int i = 0; i < M; i++) d += m[i];
+        if (Y % 4 == 0 && Y % 100 != 0 || Y % 400 == 0) d += 1;
+        cout<<d<<"\n";
+    }
+    return 0;
+}
 ~~~
 
