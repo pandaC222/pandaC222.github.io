@@ -172,3 +172,59 @@ int main() {
 }
 ~~~
 
+# 2026.4.8抽卡
+
+题目链接：https://www.nowcoder.com/practice/cddfb87d552c468d9176e95efffa7b3c?channelPut=tracker2
+
+知识点：概率，快速幂，逆元，费马小定理
+
+题目问如果每个卡池里都单抽一次，能抽到自己想要的卡的概率是多少 ，我们通过推断发现直接算能抽到的概率不好算，因为你直接相乘能抽到的概率相当于取交集，因此我们通过算每个卡池抽不到的概率p相乘，P=（1-p1）*（1-p2）....（1-pn），最终答案就是（1-P），但是我们需要mod1e9+7，由于概率可能是个分数，在处理分数模运算，我们需要求逆元，mod是质数，可以根据费马小定理求得逆元，inv(x) = fastpow(x,mod-2)。
+
+代码如下（cpp）：
+
+~~~cpp
+#include<bits/stdc++.h>
+using namespace std;
+#define int long long
+#define ld long double
+#define debug(x) cerr << #x << ": " << x << '\n';
+const int INF = 0x3f3f3f3f3f3f3f3f;
+const int mod = 1e9 + 7;
+int fastpow(int x, int p){
+    int ans = 1;
+    x %= mod;
+    while(p){
+        if(p&1) ans = ans * x % mod;
+        p >>= 1;
+        x = x * x % mod;
+    }
+    return ans;
+}
+int inv(int x){
+    return fastpow(x, mod - 2);
+}
+void solve(){
+    int n;cin>>n;
+    int fenzi = 1, fenmu = 1;
+    vector<int> a(n+1),b(n+1);
+    for(int i = 1;i <= n; i++) cin>>a[i],fenmu = fenmu * a[i] % mod;
+    for(int i = 1;i <= n; i++){
+        cin>>b[i];
+        fenzi = fenzi * (a[i] - b[i]) % mod;
+    }
+    if(fenzi == 0) cout<<1;
+    else cout<<(1 - fenzi * inv(fenmu) % mod + mod) % mod;
+}
+signed main(){
+    std::ios_base::sync_with_stdio(false);
+    std::cin.tie(nullptr);
+    int t = 1;
+    // cin>>t;
+    while(t--){
+        solve();
+    }return 0;
+}
+~~~
+
+
+
