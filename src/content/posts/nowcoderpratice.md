@@ -228,3 +228,147 @@ signed main(){
 
 
 
+# 2026.4.9绿豆蛙的归宿
+
+题目链接：https://www.nowcoder.com/practice/764c0b1b34d24122bd9ae75220e370a3
+
+知识点：动态规划
+
+ 本题是一道期望dp模板题，正解是动态规划或者记忆化搜索，但是由于牛客数据较弱，正常写不记忆化搜索的dfs也放过去了，这种写法在洛谷中(题目同名)是会T的。 
+
+ 注意到，我们需要求从起点1到N**路径总长度的期望值，**我们正常dfs写法，就是从每次从起点dfs到N，记录路径长度len，记录出边数的乘积sz，使用全概率公式求得这条路径的期望长度res，加到总期望ans中，我们给出这种直接dfs的代码：
+
+~~~cpp
+#include<bits/stdc++.h>
+using namespace std;
+#define int long long
+#define ld long double
+#define debug(x) cerr << #x << ": " << x << '\n';
+const int INF = 0x3f3f3f3f3f3f3f3f;
+
+void solve(){
+    int n,m;cin>>n>>m;
+    vector<vector<pair<int,int>>> e(n+1);
+    for(int i = 1;i <= m; i++){
+        int a,b,c;cin>>a>>b>>c;
+        e[a].push_back({b,c});
+    }
+    ld ans = 0;
+    auto dfs = [&](auto dfs,int u,int l,int sz)->void{
+        if(u == n){
+            ans += l*1.0/sz;
+            return;
+        }
+        for(auto [v,w]:e[u]){
+            dfs(dfs,v,l+w,sz*e[u].size());
+        }
+    };
+    dfs(dfs,1,0,1);
+    cout<<fixed<<setprecision(2)<<ans;
+}
+signed main(){
+    std::ios_base::sync_with_stdio(false);
+    std::cin.tie(nullptr);
+    int t = 1;
+    // cin>>t;
+    while(t--){
+        solve();
+    }return 0;
+}
+~~~
+
+ 在牛客中这种写法是可以过的，但是在洛谷中会T两个样例，原因是这种暴力的写法在边数非常大时每次重新dfs一次走过的点，复杂度会爆发式增长。 
+
+ ![img](https://uploadfiles.nowcoder.com/images/20260409/272812068_1775734246035/D2B5CA33BD970F64A6301FA75AE2EB22) 
+
+因此我们可以想到用一个数组f[n]每次记录走过的点的期望，这样再次走这个点u时直接返回f[u],这样的话我们每个点只会遍历1次，每条边也遍历一次，因此复杂度就会来到O(n+m)，这就是记忆化搜索优化时间复杂度，这样我们就可以通过这道题了。
+
+这是一个从后往前的过程，因为我们dfs在走到终点时才往回返回记录f[u]的值，答案就是f[1]，注意到，我们到底已经终点u==n后期望值为0，因为我们已经到底了，直接返回0就行。
+
+便于理解，这里给出样例递归搜索树：
+
+ ![img](https://uploadfiles.nowcoder.com/images/20260409/272812068_1775734595349/D2B5CA33BD970F64A6301FA75AE2EB22) 
+
+ 接下来我们给出记忆化搜索写法的代码： 
+
+~~~cpp
+#include<bits/stdc++.h>
+using namespace std;
+#define int long long
+#define ld long double
+#define debug(x) cerr << #x << ": " << x << '\n';
+const int INF = 0x3f3f3f3f3f3f3f3f;
+
+void solve(){
+    int n,m;cin>>n>>m;
+    vector<ld> f(n+1,-1);
+    vector<vector<pair<int,int>>> e(n+1);
+    for(int i = 1;i <= m; i++){
+        int a,b,c;cin>>a>>b>>c;
+        e[a].push_back({b,c});
+    }
+    auto dfs = [&](auto dfs,int u)->ld{
+        if(u == n) return 0;
+        if(f[u] != -1) return f[u];
+        ld res = 0;
+        for(auto [v,w]:e[u]){
+            res += (dfs(dfs,v) + w)*1.0/e[u].size();
+        }
+        return f[u] = res;
+    };
+    dfs(dfs,1);
+    cout<<fixed<<setprecision(2)<<f[1];
+}
+signed main(){
+    std::ios_base::sync_with_stdio(false);
+    std::cin.tie(nullptr);
+    int t = 1;
+    // cin>>t;
+    while(t--){
+        solve();
+    }return 0;
+}
+~~~
+
+ 当然，记忆化搜索和dp本质相同，我们通过简单改写就是dp写法了 
+
+ 代码如下： 
+
+~~~cpp
+#include<bits/stdc++.h>
+using namespace std;
+#define int long long
+#define ld long double
+#define debug(x) cerr << #x << ": " << x << '\n';
+const int INF = 0x3f3f3f3f3f3f3f3f;
+
+void solve(){
+    int n,m;cin>>n>>m;
+    vector<ld> dp(n+1,0);
+    vector<vector<pair<int,int>>> e(n+1);
+    for(int i = 1;i <= m; i++){
+        int a,b,c;cin>>a>>b>>c;
+        e[a].push_back({b,c});
+    }
+    auto dfs = [&](auto dfs,int u)->ld{
+        if(u == n) return 0;
+        if(dp[u]) return dp[u];
+        for(auto [v,w]:e[u]){
+            dp[u] += (dfs(dfs,v) + w)*1.0/e[u].size();
+        }
+        return dp[u];
+    };
+    dfs(dfs,1);
+    cout<<fixed<<setprecision(2)<<dp[1];
+}
+signed main(){
+    std::ios_base::sync_with_stdio(false);
+    std::cin.tie(nullptr);
+    int t = 1;
+    // cin>>t;
+    while(t--){
+        solve();
+    }return 0;
+}
+~~~
+
