@@ -372,3 +372,65 @@ signed main(){
 }
 ~~~
 
+# 2026.4.10 **小红的图上加边**
+
+题目链接：https://www.nowcoder.com/practice/28c35b0e3f3b4a20aee8f0497ca6745e?channelPut=tracker2
+
+知识点：贪心，并查集
+
+我们先用并查集将已经连接的边合并起来，并且更新这个区间的最大值，然后我们再遍历一遍n个节点，将每个连通块的代表节点(fa[i]==i)加入到remain数组中，接下来我们只需要把这些代表点连接起来即可，由于连接的代价是新形成的联通块的最大元素值 ，我们需要最小代价，我们可以贪心想到对这些点的最大元素值从小到大排序，从头连到尾，这样代价就是除去第一个点代价的总代价。
+
+~~~cpp
+#include<bits/stdc++.h>
+using namespace std;
+#define int long long
+#define ld long double
+#define debug(x) cerr << #x << ": " << x << '\n';
+const int INF = 0x3f3f3f3f3f3f3f3f;
+const int N = 1e5 + 10;
+int fa[N],w[N];
+int find(int x){
+    if(fa[x] == x) return x;
+    return fa[x] = find(fa[x]);
+}
+void merge(int x,int y){
+    int fx = find(x),fy = find(y);
+    if(fx != fy){
+        fa[fx] = fy;
+        w[fy] = max(w[fy],w[fx]);
+    }
+}
+void init(){
+    for(int i = 1;i < N; i++) fa[i] = i;
+}
+void solve(){
+    int n,m;cin>>n>>m;
+    for(int i = 1;i <= n; i++){
+        int x;cin>>w[i];
+    }
+    int cur = -1;
+    for(int i = 1;i <= m; i++){
+        int u,v;cin>>u>>v;
+        merge(u,v);
+    }
+    int ans = 0;
+    vector<int> remain;
+    for(int i = 1;i <= n; i++){
+        if(fa[i] == i) remain.push_back(w[i]);
+    }
+    sort(remain.begin(),remain.end());
+    for(int i = 1;i < remain.size(); i++) ans += remain[i];
+    cout<<ans;
+}
+signed main(){
+    std::ios_base::sync_with_stdio(false);
+    std::cin.tie(nullptr);
+    init();
+    int t = 1;
+    // cin>>t;
+    while(t--){
+        solve();
+    }return 0;
+}
+~~~
+
