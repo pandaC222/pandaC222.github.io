@@ -107,3 +107,52 @@ signed main(){
 }
 ~~~
 
+# 2026.4.12 Stamina 
+
+上次写竟然已经是4.8号了吗，我好fvv
+
+题目链接：https://codeforces.com/gym/106394/problem/D
+
+难度：1300
+
+知识点：贪心，堆
+
+这个贪心是预知未来的贪心，就是你先往前走，体力不够了<0了就回头看，找到a[i]最大的地方休息，意思就是你在a[i]最大的地方多休息了一次，实际上还是走到了这里，休息天数加上走了n-1步就是答案了
+
+~~~cpp
+#include<bits/stdc++.h>
+using namespace std;
+#define int long long
+#define ld long double
+#define debug(x) cerr << #x << ": " << x << '\n';
+const int INF = 0x3f3f3f3f3f3f3f3f;
+
+void solve(){
+    int n;
+    cin >> n;
+    vector<int> a(n + 1);
+    for(int i = 1;i <= n; ++i) cin >> a[i];
+    priority_queue<int> q;
+    int cur = 0, rd = 0;
+    for(int i = 1;i <= n - 1; ++i){
+        q.push(a[i]);
+        auto t = q.top();
+        cur--;
+        while(cur < 0){
+            cur += t;
+            rd++;
+        }
+    }
+    cout << rd + n - 1 << "\n";
+}
+signed main(){
+    std::ios_base::sync_with_stdio(false);
+    std::cin.tie(nullptr);
+    int t = 1;
+    cin>>t;
+    while(t--){
+        solve();
+    }return 0;
+}
+~~~
+
