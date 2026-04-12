@@ -434,3 +434,43 @@ signed main(){
 }
 ~~~
 
+# 2026.4.12 **小红背单词** 
+
+知识点：哈希，模拟
+
+我们用两个map分别记录这个单词是否已经背会和背的次数即可
+
+~~~cpp
+#include<bits/stdc++.h>
+using namespace std;
+#define int long long
+#define ld long double
+#define debug(x) cerr << #x << ": " << x << '\n';
+const int INF = 0x3f3f3f3f3f3f3f3f;
+
+void solve(){
+    int n;cin >> n;
+    int ans = 0;
+    map<string,int> ok;
+    map<string,int> cnt;
+    for(int i = 1;i <= n; ++i){
+        string s;cin >> s;
+        cnt[s]++;
+        if(!ok.count(s) and cnt[s] > ans){
+            ans++;
+            ok[s] = 1;
+        }
+    }
+    cout<<ans<<"\n";
+}
+signed main(){
+    std::ios_base::sync_with_stdio(false);
+    std::cin.tie(nullptr);
+    int t = 1;
+    // cin>>t;
+    while(t--){
+        solve();
+    }return 0;
+}
+~~~
+
