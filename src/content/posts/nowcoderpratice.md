@@ -9,9 +9,9 @@ pinned: false
 priority: 0
 draft: false
 ---
-# 	2026.4.4树上行走
+每日一题链接：https://www.nowcoder.com/problem/tracker#/daily
 
-题目链接：https://www.nowcoder.com/practice/0516ea09ce3540dd9f23fbf6f9ab4754?channelPut=tracker2
+# 	2026.4.4树上行走
 
 知识点：并查集
 
@@ -93,8 +93,6 @@ signed main(){
 
 # 2026.4.6 **小苯的麦克斯** 
 
-题目链接：https://www.nowcoder.com/practice/de5b60b23a014f1bb66b8164faea3d0d?channelPut=tracker2
-
 知识点：mex
 
 mex: **最小未出现非负整数**
@@ -147,8 +145,6 @@ for _ in range(t):
 
 
 # 2026.4.7 **计算一年中的第几天** 
-
-题目链接：https://www.nowcoder.com/practice/178aa3dafb144bb8b0445edb5e9b812a?channelPut=tracker2
 
 水题
 
@@ -229,8 +225,6 @@ signed main(){
 
 
 # 2026.4.9绿豆蛙的归宿
-
-题目链接：https://www.nowcoder.com/practice/764c0b1b34d24122bd9ae75220e370a3
 
 知识点：动态规划
 
@@ -374,8 +368,6 @@ signed main(){
 
 # 2026.4.10 **小红的图上加边**
 
-题目链接：https://www.nowcoder.com/practice/28c35b0e3f3b4a20aee8f0497ca6745e?channelPut=tracker2
-
 知识点：贪心，并查集
 
 我们先用并查集将已经连接的边合并起来，并且更新这个区间的最大值，然后我们再遍历一遍n个节点，将每个连通块的代表节点(fa[i]==i)加入到remain数组中，接下来我们只需要把这些代表点连接起来即可，由于连接的代价是新形成的联通块的最大元素值 ，我们需要最小代价，我们可以贪心想到对这些点的最大元素值从小到大排序，从头连到尾，这样代价就是除去第一个点代价的总代价。
@@ -468,6 +460,48 @@ signed main(){
     std::cin.tie(nullptr);
     int t = 1;
     // cin>>t;
+    while(t--){
+        solve();
+    }return 0;
+}
+~~~
+
+# 2026.4.13 **元素方碑** 
+
+水题
+
+我们观察可以发现1，3，5，7这种隔一个元素的位置可以互相转移，只能分为1，3，5和2，4，6这两种，我们直接判断是否相等即可
+
+~~~cpp
+#include<bits/stdc++.h>
+using namespace std;
+#define int long long
+#define debug(x) cerr << #x << ": " << x << '\n';
+const int INF = 0x3f3f3f3f3f3f3f3f;
+void solve(){
+    int n;
+    cin >> n;
+    int sum1 = 0, sum2 = 0;
+    for(int i = 1;i <= n; ++i){
+        int x;
+        cin >> x;
+        if(i & 1LL) sum1 += x;
+        else sum2 += x;
+    }
+    if(n == 1){
+        cout<<"YES\n";
+        return;
+    }
+    if(sum1 % ((n+1)/2) == 0 && sum2 % (n/2) == 0 && sum1 / ((n+1)/2) == sum2 / (n/2)){
+        cout<<"YES\n";
+    }
+    else cout<<"NO\n";
+}
+signed main(){
+    std::ios_base::sync_with_stdio(false);
+    std::cin.tie(nullptr);
+    int t = 1;
+    cin >> t;
     while(t--){
         solve();
     }return 0;

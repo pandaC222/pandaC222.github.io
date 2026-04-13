@@ -156,3 +156,61 @@ signed main(){
 }
 ~~~
 
+# 2026.4.13没有上司的舞会
+
+今天来道树形dp典题
+
+题目链接：https://www.luogu.com.cn/problem/P1352
+
+我们只需要从后往前算，开二维数组dp[n] [2] 0表示不选，1表示不选，如果选了就不能选下属，不选就能在选下属与不选下属之间取最大，这就是状态转移方程了
+
+~~~cpp
+#include<bits/stdc++.h>
+using namespace std;
+#define int long long
+#define ld long double
+#define debug(x) cerr << #x << ": " << x << '\n';
+const int INF = 0x3f3f3f3f3f3f3f3f;
+
+void solve(){
+    int n;
+    cin >> n;
+    vector<int> w(n + 1),du(n + 1);
+    for(int i = 1;i <= n; ++i) cin >> w[i];
+    vector<vector<int>> dp(n + 1,vector<int>(2,0)),e(n + 1);
+    for(int i = 1;i <= n - 1; ++i){
+        int l, k;
+        cin >> l >> k;
+        e[k].push_back(l);
+        du[l]++;
+    }
+    int root = -1;
+    for(int i = 1;i <= n; ++i){
+        if(du[i] == 0){
+            root = i;
+            break;
+        }
+    }
+    auto dfs = [&](auto dfs, int u)->void{
+        dp[u][0] = 0;
+        dp[u][1] = w[u];
+        for(auto i : e[u]){
+            dfs(dfs, i);
+            dp[u][1] += dp[i][0];
+            dp[u][0] += max(dp[i][1], dp[i][0]);
+        }
+    };
+    dfs(dfs, root);
+    cout << max(dp[root][1], dp[root][0]) << '\n';
+}
+signed main(){
+    std::ios_base::sync_with_stdio(false);
+    std::cin.tie(nullptr);
+    int t = 1;
+    // cin>>t;
+    while(t--){
+        solve();
+    }return 0;
+}
+~~~
+
