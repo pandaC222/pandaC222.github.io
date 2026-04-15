@@ -214,3 +214,47 @@ signed main(){
 }
 ~~~
 
+# 2026.4.14  Adjacent XOR 
+
+题目链接：https://codeforces.com/problemset/problem/2131/E
+
+难度：1400
+
+首先我们可以发现a和b的最后一项绝对是相同的，我们将a[i]变成b[i]有一下几种情况，a[i]本来就等于b[i],a[i] ^ a[i+1] = b[i],或者是a[i + 1]已经变成b[i + 1]后，a[i] ^ b[i + 1] = b[i]，如果这三种情况都不成立，那输出No即可
+
+~~~cpp
+#include<bits/stdc++.h>
+using namespace std;
+#define int long long
+#define ld long double
+#define debug(x) cerr << #x << ": " << x << '\n';
+const int INF = 0x3f3f3f3f3f3f3f3f;
+void solve(){
+    int n;
+    cin >> n;
+    vector<int> a(n + 1), b(n + 1);
+    for(int i = 1;i <= n; ++i) cin >> a[i];
+    for(int i = 1;i <= n; ++i) cin >> b[i];
+    if(a[n] != b[n]){
+        cout << "NO\n";
+        return;
+    }
+    for(int i = n - 1;i >= 1; --i){
+        if((a[i] ^ b[i+1]) != b[i] && (a[i] != b[i]) && ((a[i] ^ a[i+1]) != b[i])){
+            cout << "NO\n";
+            return;
+        }
+    }
+    cout << "YES\n";
+}
+signed main(){
+    std::ios_base::sync_with_stdio(false);
+    std::cin.tie(nullptr);
+    int t = 1;
+    cin >>t;
+    while(t--){
+        solve();
+    }return 0;
+}
+~~~
+

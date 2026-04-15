@@ -508,3 +508,101 @@ signed main(){
 }
 ~~~
 
+# 2026.4.14 **小美的01串翻转** 
+
+知识点：dp，暴力
+
+这道题给出两种写法，一种是dp，一种是暴力，时间复杂度都是O(n^2)
+
+dp写法，我们枚举每个元素作为起点，内层循环到终点，这样就是所有子串了，我们对于当前元素s[i]与前一个元素s[i - 1]对比，如果s[i] == s[i - 1],可以选择换s[i - 1]或者换s[i],如果s[i] != s[i - 1],那么可以选择不换或者都换,这就是状态转移方程
+
+代码如下：
+
+~~~cpp
+#include<bits/stdc++.h>
+#include <vector>
+using namespace std;
+#define int long long
+#define debug(x) cerr << #x << ": " << x << '\n';
+const int INF = 0x3f3f3f3f3f3f3f3f;
+void solve(){
+    string s;
+    cin >> s;
+    int len = s.size();
+    s = ' ' + s;
+    int ans = 0;
+    vector<vector<int>> dp(len + 1,vector<int>(2));
+    for(int i = 1;i <= len; ++i){
+        dp[i][0] = 0, dp[i][1] = 1;
+        for(int j = i + 1;j <= len; ++j){
+            if(s[j] == s[j - 1]){
+                dp[j][0] = dp[j - 1][1];
+                dp[j][1] = dp[j - 1][0] + 1;
+            }
+            else{
+                dp[j][0] = dp[j - 1][0];
+                dp[j][1] = dp[j - 1][1] + 1;
+            }
+            ans += min(dp[j][0], dp[j][1]);
+        }
+    }
+    cout << ans << '\n';
+}
+signed main(){
+    std::ios_base::sync_with_stdio(false);
+    std::cin.tie(nullptr);
+    int t = 1;
+    // cin >> t;
+    while(t--){
+        solve();
+    }return 0;
+}
+~~~
+
+暴力我们可以想到，对于最终结果只有1010101或者01010101这两种情况，我们只需要预处理一个前缀和数组，记录数组变成第一种情况的权值，第二种情况的权值就是这个子串长度减去第一种情况的权值，两种情况取最小即可
+
+~~~cpp
+#include<bits/stdc++.h>
+using namespace std;
+#define int long long
+#define debug(x) cerr << #x << ": " << x << '\n';
+const int INF = 0x3f3f3f3f3f3f3f3f;
+void solve(){
+    string s;
+    cin >> s;
+    int len = s.size();
+    s = ' ' + s;
+    vector<int> cost(len + 1);
+    //101010101
+    //010101010
+    int ans = 0;
+    for(int i = 1;i <= len; ++i){
+        if(i & 1){
+            if(s[i] != '1') cost[i] = cost[i - 1] + 1;
+            else cost[i] = cost[i - 1];
+        }
+        else{
+            if(s[i] != '0') cost[i] = cost[i - 1] + 1;
+            else cost[i] = cost[i - 1];
+        }
+    }
+    for(int i = 1;i <= len; ++i){
+        for(int j = 1;j <= i; ++j){
+            int c1 = cost[i] - cost[j - 1];
+            int c2 = i - j + 1 - c1;
+            ans += min(c1, c2);
+        }
+    }
+    cout << ans << "\n";
+}
+signed main(){
+    std::ios_base::sync_with_stdio(false);
+    std::cin.tie(nullptr);
+    int t = 1;
+    // cin >> t;
+    while(t--){
+        solve();
+    }return 0;
+}
+~~~
+
