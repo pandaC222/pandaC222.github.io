@@ -5,8 +5,8 @@ description: "如果不太难并且很有意义的题我就会更新（可能）
 image: "/assets/home/nowcoder.webp"
 tags: ["算法", "每日一题"]
 category: "牛客"
-pinned: false
-priority: 0
+pinned: true
+priority: 1
 draft: false
 ---
 每日一题链接：https://www.nowcoder.com/problem/tracker#/daily
@@ -594,6 +594,64 @@ void solve(){
         }
     }
     cout << ans << "\n";
+}
+signed main(){
+    std::ios_base::sync_with_stdio(false);
+    std::cin.tie(nullptr);
+    int t = 1;
+    // cin >> t;
+    while(t--){
+        solve();
+    }return 0;
+}
+~~~
+
+# 4.16 **小红树上染色** 
+
+知识点：树形dp
+
+我们可以知道，如果一个节点为白色，那他的父节点一定得是红色，如果一个节点是红色，那他的父节点可以是白色或者红色
+
+这可以推出状态转移方程了，我们从根部向上转移：（0代表白色，1代表红色）
+
+dp[u][0] = (dp[u][0] * dp[v][1]) % mod; 父节点为白色子节点只能为红色
+
+dp[u][1] = (dp[u][1] * (dp[v][0] + dp[v][1])) % mod; 父节点为红色子节点可以为白色或者红色
+
+注意到，我们在计算这种方案时需要用到乘法，因为每种方案都是独立的，所以我们需要将每个节点的dp[u][0]和dp[u][1]初始化为1
+
+代码如下(cpp):
+
+~~~cpp
+#include<bits/stdc++.h>
+using namespace std;
+#define int long long
+#define debug(x) cerr << #x << ": " << x << '\n';
+const int INF = 0x3f3f3f3f3f3f3f3f;
+const int mod = 1e9 + 7;
+void solve(){
+    int n;
+    cin >> n;
+    vector<vector<int>> e(n + 1);
+    for(int i = 1;i <= n - 1; ++i){
+        int u, v;
+        cin >> u >> v;
+        e[u].push_back(v);
+        e[v].push_back(u);
+    }
+    vector<vector<int>> dp(n+1,vector<int>(2));
+    auto dfs = [&](auto dfs, int u, int fa)->void{
+        dp[u][0] = 1;
+        dp[u][1] = 1;
+        for(auto v : e[u]){
+            if(v == fa) continue;
+            dfs(dfs, v, u);
+            dp[u][0] = (dp[u][0] * dp[v][1]) % mod;
+            dp[u][1] = (dp[u][1] * (dp[v][0] + dp[v][1])) % mod;
+        }
+    };
+    dfs(dfs, 1, 0);
+    cout << (dp[1][0] + dp[1][1]) % mod;
 }
 signed main(){
     std::ios_base::sync_with_stdio(false);

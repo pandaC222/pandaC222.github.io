@@ -5,6 +5,8 @@ description: 监督自己每天至少写一道灵茶或者羊蹄（也许
 image: /assets/home/codeforce.webp
 tags: [Codeforces,每日一题]
 category: Codeforces
+pinned: true
+priority: 2
 ---
 
 # 2026.4.7 Fedya and Array 
