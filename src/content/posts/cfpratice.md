@@ -260,3 +260,49 @@ signed main(){
 }
 ~~~
 
+# 2026.4.19 Piano Pirates 
+
+难度：1300
+
+这个题主要是用到一个search函数，寻找是否有相同的序列即可
+
+~~~cpp
+#include<bits/stdc++.h>
+using namespace std;
+#define int long long
+#define ld long double
+#define debug(x) cerr << #x << ": " << x << '\n';
+const int INF = 0x3f3f3f3f3f3f3f3f;
+
+void solve(){
+    int n, m;
+    cin >> n >> m;
+    vector<int> ans(m + 1);
+    for(int i = 1;i <= m; ++i) cin >> ans[i];
+    bool ok = 0;
+    int res = -1;
+    for(int i = 1;i <= n; ++i){
+        vector<int> cur(m + 1);
+        for(int j = 1;j <= m; ++j) cin >> cur[j];
+        if(ok) continue;
+        for(int j = 1;j <= m; ++j) cur.push_back(cur[j]);
+        auto it = search(cur.begin() + 1, cur.end(), ans.begin() + 1, ans.end());
+        if(it != cur.end()){
+            res = i;
+            ok = 1;
+        }
+    }
+    if(ok) cout << res;
+    else cout << -1;
+}
+signed main(){
+    std::ios_base::sync_with_stdio(false);
+    std::cin.tie(nullptr);
+    int t = 1;
+    // cin >> t;
+    while(t--){
+        solve();
+    }return 0;
+}
+~~~
+

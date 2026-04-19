@@ -664,3 +664,38 @@ signed main(){
 }
 ~~~
 
+# 2026.4.19 **小红的完全二叉树构造** 
+
+其实这道题很简单，我们通过手推可以发现，先放偶数是完全可以解决这个构造问题的
+
+代码如下：
+
+~~~cpp
+#include<bits/stdc++.h>
+using namespace std;
+#define int long long
+#define ld long double
+#define debug(x) cerr << #x << ": " << x << '\n';
+const int INF = 0x3f3f3f3f3f3f3f3f;
+
+void solve(){
+    int n;
+    cin >> n;
+    for(int i = 1;i <= n; ++i){
+        if(i % 2 == 0) cout << i << " ";
+    }
+    for(int i = 1;i <= n; ++i){
+        if(i & 1) cout << i << " ";
+    }
+}
+signed main(){
+    std::ios_base::sync_with_stdio(false);
+    std::cin.tie(nullptr);
+    int t = 1;
+    // cin >> t;
+    while(t--){
+        solve();
+    }return 0;
+}
+~~~
+
