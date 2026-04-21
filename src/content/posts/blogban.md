@@ -1,3 +1,12 @@
+---
+title: "自用板子"
+published: 2026-04-05T14:42:00+08:00
+description: "一直更新"
+image: /assets/home/acm.webp
+tags: [算法,模板]
+category: 模板
+---
+
 # 1	基础算法
 
 ## 1.1	头文件
@@ -17,7 +26,7 @@ signed main(){
     std::ios_base::sync_with_stdio(false);
     std::cin.tie(nullptr);
     int t = 1;
-    cin>>t;
+    cin >> t;
     while(t--){
         solve();
     }return 0;
