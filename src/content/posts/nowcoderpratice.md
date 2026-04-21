@@ -699,3 +699,90 @@ signed main(){
 }
 ~~~
 
+# 2026.4.20 **穷哈哈~** 
+
+简单的转移
+
+~~~cpp
+#include<bits/stdc++.h>
+#include <vector>
+using namespace std;
+#define int long long
+#define ld long double
+#define debug(x) cerr << #x << ": " << x << '\n';
+const int INF = 0x3f3f3f3f3f3f3f3f;
+
+void solve(){
+    int n;
+    string s;
+    cin >> n >> s;
+    vector<int> dp(n + 1, 0);
+    s = ' ' + s;
+    for(int i = 1;i <= n; ++i){
+        if(s[i] == 'a' || s[i] == 'h') dp[i] = 1;
+    }
+    int ans = dp[1];
+    for(int i = 2;i <= n; ++i){
+        if(s[i] == 'h' && s[i - 1] == 'a'){
+            dp[i] += dp[i - 1];
+        }
+        if(i >= 3 && (s[i] == 'a' && s[i - 1] == 'h' && s[i - 2] == 'a')){
+            dp[i] += dp[i - 1];
+        }
+        ans = max(ans, dp[i]);
+    }
+    cout << ans;
+}
+signed main(){
+    ios_base::sync_with_stdio(false);
+    cin.tie(0);
+    int t = 1;
+    // cin >> t;
+    while(t--) solve();
+    return 0;
+}
+~~~
+
+# 2026.4.21 dd爱框框 
+
+双指针
+
+~~~cpp
+#include<bits/stdc++.h>
+using namespace std;
+#define int long long
+#define ld long double
+#define debug(x) cerr << #x << ": " << x << '\n';
+const int INF = 0x3f3f3f3f3f3f3f3f;
+
+void solve(){
+    int n, x;
+    cin >> n >> x;
+    vector<int> a(n + 1);
+    for(int i = 1;i <= n; ++i) cin >> a[i];
+    int l = 1;
+    int sum = 0;
+    int ansl = -INF, ansr = INF;
+    for(int r = 1;r <= n; ++r){
+        sum += a[r];
+        while(sum >= x){
+            if(r - l < ansr - ansl){
+                ansl = l, ansr = r;
+            }
+            sum -= a[l];
+            l++;
+        }
+    }
+    cout << ansl << " " << ansr;
+}
+signed main(){
+    std::ios_base::sync_with_stdio(false);
+    std::cin.tie(nullptr);
+    int t = 1;
+    // cin >> t;
+    while(t--){
+        solve();
+    }return 0;
+}
+~~~
+

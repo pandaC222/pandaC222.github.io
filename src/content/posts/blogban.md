@@ -1,14 +1,3 @@
----
-title: "自用板子"
-published: 2026-04-05T14:42:00+08:00
-description: "随缘更新"
-image: /assets/home/acm.webp
-tags: [算法,模板]
-category: 模板
-pinned: true
-priority: 0
----
-
 # 1	基础算法
 
 ## 1.1	头文件
@@ -92,11 +81,8 @@ signed main() {
     // 必须先调用预处理
     init();
     int t = 1;
-    if (cin >> t) {
-        while (t--) {
-            solve();
-        }
-    }  
+    cin >> t;
+    while(t--) solve();
     return 0;
 }
 ~~~
@@ -426,56 +412,41 @@ signed main(){
 #include <bits/stdc++.h>
 using namespace std;
 #define int long long
-
 const int N = 200010;
-
 int fa[N];
-
 int find(int x){
     if(fa[x] == x) return x;
     return fa[x] = find(fa[x]); // 路径压缩
 }
-
 struct Edge{
     int u, v, w;
 };
-
 signed main(){
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-
     int n, m;
     cin >> n >> m;
-
     // 初始化并查集
     for(int i = 1; i <= n; i++) fa[i] = i;
-
     vector<Edge> e(m);
     for(int i = 0; i < m; i++){
         cin >> e[i].u >> e[i].v >> e[i].w;
     }
-
     // 按权值排序
     sort(e.begin(), e.end(), [](Edge a, Edge b){
         return a.w < b.w;
     });
-
     int ans = 0;
     int cnt = 0;
-
     for(auto [u, v, w] : e){
         int fu = find(u);
         int fv = find(v);
-
         if(fu == fv) continue; // 成环跳过
-
         fa[fu] = fv;           // 合并
         ans += w;
         cnt++;
-
         if(cnt == n - 1) break; // 已构成 MST
     }
-
     if(cnt != n - 1) cout << "orz\n"; // 不连通
     else cout << ans << "\n";
 }
@@ -497,12 +468,6 @@ signed main(){
   - 当对应的节点入度为 0 就加入队列。
 
 ~~~cpp
-#include<bits/stdc++.h>
-using namespace std;
-#define int long long
-#define ld long double
-#define debug(x) cerr << #x << ": " << x << '\n';
-const int INF = 0x3f3f3f3f3f3f3f3f;
 void solve(){
     int n; cin >> n;
     vector<int> deg(n + 1);          // 入度数组
@@ -531,17 +496,6 @@ void solve(){
             if(!deg[i]) q.push(i);  // 新入度为 0 的点入队
         }
     }
-}
-
-signed main(){
-    std::ios_base::sync_with_stdio(false);
-    std::cin.tie(nullptr);
-    int t = 1;
-    // cin >> t;
-    while(t--){
-        solve();
-    }
-    return 0;
 }
 ~~~
 
@@ -582,16 +536,62 @@ void merge(int x,int y){
 }
 ~~~
 
+## 4.2	中序遍历+前后序遍历建树
 
+~~~cpp
+//分层次遍历
+void solve(){
+    int n;
+    cin >> n;
+    map<int,int> insuf,inmid;
+    vector<int> suf(n + 1),mid(n + 1);
+    for(int i = 1;i <= n; ++i){
+        cin >> suf[i];
+        insuf[suf[i]] = i;
+    }
+    for(int i = 1;i <= n; ++i){
+        cin >> mid[i];
+        inmid[mid[i]] = i;
+    }
+    map<int,int> l,r;
+    auto find = [&](int pl, int pr){
+        int best = -INF;
+        for(int i = pl;i <= pr; ++i){
+            int val = mid[i];
+            if(insuf[val] > best) best = insuf[val];
+        }
+        return suf[best];
+    };
+    auto built = [&](auto built, int pl, int pr)->int{
+        if(pl > pr) return -1;
+        int root = find(pl, pr);
+        int pos = inmid[root];
+        l[root] = built(built, pl, pos - 1);
+        r[root] = built(built, pos + 1, pr);
+        return root;
+    };
+    built(built, 1, n);
+    int root = find(1, n);
+    queue<int> q;
+    q.push(root);
+    vector<int> ans;
+    while(q.size()){
+        int cur = q.front();
+        q.pop();
+        ans.push_back(cur);
+        if(l[cur] != -1) q.push(l[cur]);
+        if(r[cur] != -1) q.push(r[cur]);
+    }
+    for(int i = 0;i < ans.size() - 1; ++i) cout << ans[i] << " ";
+    cout << ans.back();
+}
+~~~
 
 # 5	动态规划
 
 ## 5.1 最长不下降子序列 (LNDS)  
 
 ~~~cpp
-#include <bits/stdc++.h>
-using namespace std;
-
 int main() {
     int n;
     cin >> n;
@@ -612,6 +612,148 @@ int main() {
     cout << d.size() << endl;
     return 0;
 }
+~~~
 
+## 5.2	期望dp
+
+~~~cpp
+void solve(){
+    int n,m;cin>>n>>m;
+    vector<ld> dp(n+1,0);
+    vector<vector<pair<int,int>>> e(n+1);
+    for(int i = 1;i <= m; i++){
+        int a,b,c;cin>>a>>b>>c;
+        e[a].push_back({b,c});
+    }
+    auto dfs = [&](auto dfs,int u)->ld{
+        if(u == n) return 0;
+        if(dp[u]) return dp[u];
+        for(auto [v,w]:e[u]){
+            dp[u] += (dfs(dfs,v) + w)*1.0/e[u].size();
+        }
+        return dp[u];
+    };
+    dfs(dfs,1);
+    cout<<fixed<<setprecision(2)<<dp[1];
+}
+~~~
+
+## 5.3	LCS (最长公共子序列)  
+
+~~~cpp
+void solve() {
+    string s, t;
+    cin >> s >> t;
+
+    int n = s.size();
+    int m = t.size();
+
+    // dp[i][j] 表示 s 的前 i 个字符与 t 的前 j 个字符的最长公共子序列长度
+    // 这里的下标直接用 0 到 n，dp 大小开 (n+1) * (m+1)
+    vector<vector<int>> dp(n + 1, vector<int>(m + 1, 0));
+
+    // 1. 动态规划填表
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= m; j++) {
+            if (s[i - 1] == t[j - 1]) { // 注意字符串下标从 0 开始，所以是 i-1 和 j-1
+                dp[i][j] = dp[i - 1][j - 1] + 1;
+            } else {
+                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
+            }
+        }
+    }
+
+    // 2. 倒序回溯构造具体序列
+    string ans = "";
+    int i = n, j = m;
+    while (i > 0 && j > 0) {
+        if (s[i - 1] == t[j - 1]) {
+            ans += s[i - 1]; // 发现公共字符
+            i--;
+            j--;
+        } else {
+            // 往 dp 值更大的方向回退
+            if (dp[i - 1][j] >= dp[i][j - 1]) {
+                i--;
+            } else {
+                j--;
+            }
+        }
+    }
+
+    // 因为是倒序回溯，最后需要反转字符串
+    reverse(ans.begin(), ans.end());
+    cout << ans << endl;
+}
+~~~
+
+## 5.4	01背包
+
+~~~cpp
+void solve() {
+    int n, v;
+    cin >> n >> v;
+    // dp: 只要容量不超过 j 的最大价值 (初始化为0)
+    // dpp: 恰好容量为 j 的最大价值 (初始化为负无穷)
+    vector<int> dp(v + 1, 0);
+    vector<int> dpp(v + 1, -INF);
+
+    dpp[0] = 0; // 恰好装满容量为 0 的价值是 0
+
+    for (int i = 1; i <= n; i++) {
+        int weight, value;
+        cin >> weight >> value;
+        
+        // 0/1 背包逆序遍历，防止重复挑选同一个物品
+        for (int j = v; j >= weight; j--) {
+            // 变体1：不要求装满
+            dp[j] = max(dp[j], dp[j - weight] + value);
+            
+            // 变体2：恰好装满 (只有当前驱状态可达时才转移)
+            if (dpp[j - weight] != -INF) {
+                dpp[j] = max(dpp[j], dpp[j - weight] + value);
+            }
+        }
+    }
+
+    // 输出 1：最大价值
+    cout << dp[v] << "\n";
+
+    // 输出 2：恰好装满的最大价值
+    if (dpp[v] < 0) cout << 0 << "\n"; // 无法恰好装满
+    else cout << dpp[v] << "\n";
+}
+~~~
+
+
+
+# 6	杂项
+
+## 6.1	单调栈
+
+~~~cpp
+void solve() {
+    int n;
+    cin >> n;
+    vector<int> a(n + 1);
+    vector<int> st;      // 单调栈：存储下标
+    vector<int> f(n + 1); // 存储结果：右侧第一个比 a[i] 大的元素的下标
+    for (int i = 1; i <= n; i++) cin >> a[i];
+    // 从右往左遍历
+    for (int i = n; i >= 1; i--) {
+        // 维护单调性：如果栈顶元素不比当前元素大，它就不可能是左边元素的“第一个更大值”，弹出
+        while (!st.empty() && a[st.back()] <= a[i]) {
+            st.pop_back();
+        }
+        // 栈顶就是右侧第一个比 a[i] 大的下标
+        if (!st.empty()) {
+            f[i] = st.back();
+        } else {
+            f[i] = 0; // 说明右侧没有比它更大的
+        }
+        // 将当前下标入栈，供左侧元素参考
+        st.push_back(i);
+    }
+}
 ~~~
 

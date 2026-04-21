@@ -306,3 +306,41 @@ signed main(){
 }
 ~~~
 
+# 2026.4.20 Paranoid String 
+
+题目链接：https://codeforces.com/problemset/problem/1694/B
+
+我们通过观察01结尾的或者10结尾的就可以
+
+~~~cpp
+#include<bits/stdc++.h>
+using namespace std;
+#define int long long
+#define ld long double
+#define debug(x) cerr << #x << ": " << x << '\n';
+const int INF = 0x3f3f3f3f3f3f3f3f;
+
+void solve(){
+    int n;
+    string s;
+    cin >> n >> s;
+    int ans = n;
+    s = ' ' + s;
+    for(int i = 2;i <= n; ++i){
+        if((s[i] == '1' && s[i - 1] == '0') || (s[i] == '0' && s[i - 1] == '1')){
+            ans += i - 1;
+        }
+    }
+    cout << ans << "\n";
+}
+signed main(){
+    std::ios_base::sync_with_stdio(false);
+    std::cin.tie(nullptr);
+    int t = 1;
+    cin >> t;
+    while(t--){
+        solve();
+    }return 0;
+}
+~~~
+
