@@ -14,15 +14,16 @@ category: 模板
 ~~~cpp
 #include<bits/stdc++.h>
 using namespace std;
-#define int long long
-#define ld long double
-#define debug(x) cerr << #x << ": " << x << '\n';
-const int INF = 0x3f3f3f3f3f3f3f3f;
-
+#define debug(x) cerr << #x << ": " << x << "\n";
+using i64 = long long;
+using i128 = __int128;
+using ld = long double;
+const i64 INF = 0x3f3f3f3f3f3f3f3f;
+const i64 mod = 998244353;
 void solve(){
     
 }
-signed main(){
+int main(){
     std::ios_base::sync_with_stdio(false);
     std::cin.tie(nullptr);
     int t = 1;
@@ -38,17 +39,16 @@ signed main(){
 ### 1.2.1	组合数预处理
 
 ~~~cpp
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
-#define int long long
-// 常量定义
-const int INF = 0x3f3f3f3f3f3f3f3f;
-const int mod = 1e9 + 7;
-const int mx = 1e6 + 1000;
-int fac[mx + 1], ifac[mx + 1];
-//快速幂运算 x^p % mod
-int fastpow(int x, int p) {
-    int ans = 1;
+using i64 = long long;
+using i128 = __int128;
+const i64 INF = 0x3f3f3f3f3f3f3f3f;
+const i64 mod = 998244353;
+const int mx = 1e6 + 1000; 
+i64 fac[mx + 1], invfac[mx + 1];
+i64 fastpow(i64 x, i64 p) {
+    i64 ans = 1;
     x %= mod;
     while (p) {
         if (p & 1) ans = ans * x % mod;
@@ -57,41 +57,37 @@ int fastpow(int x, int p) {
     }
     return ans;
 }
-//费马小定理求单个数的逆元
-int inv(int x) {
+i64 inv(i64 x) {
     return fastpow(x, mod - 2);
 }
-//预处理阶乘和阶乘逆元，复杂度: O(MX + log mod)
+i64 c(i64 a, i64 b) {
+    if(b < 0 || b > a) return 0;
+    return fac[a] * invfac[b] % mod * invfac[a - b] % mod;
+}
+
 void init() {
     fac[0] = 1;
     for (int i = 1; i <= mx; i++) {
         fac[i] = fac[i - 1] * i % mod;
-    }   
-    // 关键：先求出最大阶乘的逆元，再逆推回去
-    ifac[mx] = inv(fac[mx]);
-    for (int i = mx - 1; i >= 0; i--) {
-        ifac[i] = ifac[i + 1] * (i + 1) % mod;
+    }
+    invfac[mx] = fastpow(fac[mx], mod - 2);
+    for (int i = mx - 1; i >= 1; i--) {
+        invfac[i] = invfac[i + 1] * (i + 1) % mod;
     }
 }
 
-//C(a, b) = a! / (b! * (a-b)!) % mod
-int c(int a, int b) {
-    if (b < 0 || b > a) return 0;
-    return fac[a] * ifac[b] % mod * ifac[a - b] % mod;
-}
 void solve() {
-    // 示例：计算 C(10, 3)
-    // cout << c(10, 3) << endl;
+
 }
-signed main() {
-    // 关流加速
+int main(){
     std::ios_base::sync_with_stdio(false);
-    std::cin.tie(nullptr);
-    // 必须先调用预处理
+    std::cin.tie(nullptr);   
     init();
     int t = 1;
     cin >> t;
-    while(t--) solve();
+    while (t--) {
+        solve();
+    }
     return 0;
 }
 ~~~
@@ -102,7 +98,7 @@ signed main() {
 int find(x){
     int l = 0, r = n + 1;
     while(l + 1 < r){
-        int mid = l+r>>1;
+        int mid = l + r >> 1;
         if(a[mid] <= q) l = mid;
         else r = mid;
     }
@@ -147,18 +143,40 @@ bool isprime(int x) {
  埃氏筛的时间复杂度为 O(nloglogn)，在处理 1e7 以内的数据量时表现非常出色。 
 
 ~~~cpp
-const int mx = 2e5+10;
-bool heshu[mx];
-int zhishu[mx];
-int cnt;//计数器
-void sieve(int n){
-    for(int i = 2; i <= n; i++){
-        if(!heshu[i]){
-            cnt++;
-            zhishu[cnt] = i;//注意是从1开始的
-            for(int j = i * i; j <= n; j += i){
-                heshu[j] = 1;
+const int N = 1e8 + 10;
+bitset<N> isprime;
+vector<int> prime;
+void sieve() {
+    isprime.set();
+    isprime[0] = isprime[1] = 0;
+    for (int i = 2; i < N; ++i) {
+        if (isprime[i]) {
+            prime.push_back(i);
+            if ((i64)i * i < N) {
+                for (int j = i * i; j < N; j += i) {
+                    isprime[j] = 0;
+                }
             }
+        }
+    }
+}
+~~~
+
+### 2.1.2	欧拉筛(线性筛)
+
+~~~cpp
+const int N = 1e6 + 10;
+bitset<N> isprime;
+vector<int> prime;
+void sieve() {
+    isprime.set();
+    isprime[0] = isprime[1] = 0;
+    for (int i = 2; i < N; ++i) {
+        if (isprime[i]) prime.push_back(i);
+        for (int p : prime) {
+            if (1LL * i * p >= N) break;
+            isprime[i * p] = 0;
+            if (i % p == 0) break;
         }
     }
 }
@@ -170,7 +188,7 @@ void sieve(int n){
 
  𝑎 ∗𝑎𝑝−2 = 𝑎𝑝−1 ≡ 1(𝑚𝑜𝑑 𝑝)
 
- 所以快速幂求 a 模意义下的逆元就是 fastpow(a,mod-2) 只适用于 p 为质数
+ 所以快速幂求 a 模意义下的逆元就是 qpow(a,mod-2) 只适用于 p 为质数
 
 ## 2.3	 裴蜀定理 
 
@@ -181,17 +199,15 @@ void sieve(int n){
 ## 2.4	快速幂
 
 ~~~cpp
-int fastpow(int a,int p,int mod){
-    int ans = 1;
-    a %= mod;
-    while(p){
-        if(b % 2 == 1){
-            ans = ans * a % c;
-        }
-        a = a * a % c;
-        b >>= 1;
+i64 qpow(i64 x, i64 p) {
+    x %= mod;
+    i64 res = 1;
+    while(p) {
+        if(p & 1) res = res * x % mod;
+        x = x * x % mod;
+        p >>= 1;
     }
-    return ans;
+    return res;
 }
 ~~~
 
@@ -201,7 +217,7 @@ p需要是质数
 
 ~~~cpp
 int getinv(int x,int p){
-    return fastpow(x,p - 2)
+    return qpow(x,p - 2)
 }
 ~~~
 
@@ -229,60 +245,53 @@ int exgcd(int a,int b,int &x,int &y){
 
 
 ~~~cpp
-#include<bits/stdc++.h>
-using namespace std;
-#define int long long
-#define debug(x) cerr << #x << ": " << x << '\n';
-const int INF = 0x3f3f3f3f3f3f3f3f;
-const int mod=1e9+7;
-int n,k;
-//矩阵快速幂
-struct matrix{
-    int c[101][101];//设置矩阵大小
-    matrix(){memset(c,0,sizeof(c));}
-}res,a;
-matrix operator*(matrix &x,matrix &y){
+int n;  // 全局 n，但需要确保每组数据都正确设置
+i64 k;
+struct matrix {
+    i64 c[101][101];
+    matrix() { memset(c, 0, sizeof(c)); }
+} res, a;
+// 重载运算符 - 使用全局 n
+matrix operator*(const matrix& x, const matrix& y) {
     matrix t;
-    for(int i=1;i<=n;i++){//n大小记得换
-        for(int k=1;k<=n;k++){//把k和j交换可以优化常数
-            for(int j=1;j<=n;j++){
-                t.c[i][j]=(t.c[i][j]+x.c[i][k]*y.c[k][j])%mod;//注意模数
+    for (int i = 1; i <= n; i++) {
+        for (int k = 1; k <= n; k++) {
+            if (x.c[i][k] == 0) continue;  // 优化
+            for (int j = 1; j <= n; j++) {
+                t.c[i][j] = (t.c[i][j] + x.c[i][k] * y.c[k][j]) % mod;
             }
         }
     }
-    return t;//注意返回
-};
-void fastpow(int k){
-    for(int i=1;i<=n;i++) res.c[i][i]=1;
-    while(k){
-        if(k&1) res=res*a;
-        a=a*a;
-        k>>=1;
+    return t;
+}
+void fastpow(i64 k) {
+    // 重置并初始化为单位矩阵
+    memset(res.c, 0, sizeof(res.c));
+    for (int i = 1; i <= n; i++) res.c[i][i] = 1;
+    // 注意：需要复制 a，因为 a 会被修改
+    matrix base = a;
+    while (k) {
+        if (k & 1) res = res * base;
+        base = base * base;
+        k >>= 1;
     }
 }
-void solve(){
-    cin>>n>>k;
-    for(int i=1;i<=n;i++){
-        for(int j=1;j<=n;j++){
-            cin>>a.c[i][j];
+
+void solve() {
+    cin >> n >> k;
+    // 读入矩阵 a
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= n; j++) {
+            cin >> a.c[i][j];
         }
     }
     fastpow(k);
-    for(int i=1;i<=n;i++){
-        for(int j=1;j<=n;j++){
-            cout<<res.c[i][j]<<" ";
+    // 输出结果
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= n; j++) {
+            cout << res.c[i][j] << " \n";
         }
-        cout<<"\n";
     }
-}
-signed main(){
-    std::ios_base::sync_with_stdio(false);
-    std::cin.tie(nullptr);
-    int t = 1;
-    // cin>>t;
-    while(t--){
-        solve();
-    }return 0;
 }
 ~~~
 
@@ -295,48 +304,31 @@ signed main(){
 ### 3.1.1	 Djikstra算法 
 
 ~~~cpp
-#include<bits/stdc++.h>
-using namespace std;
-#define int long long
-int n,m,s;
-const int INF=1e18;
-vector<pair<int,int>> e[101010];
-auto dij(){
-    vector<int> dist(n+1,INF);
-    dist[s]=0;
-    priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>> q;
-    q.push({0,s});
+void solve(){
+    int n, m, s;
+    cin >> n >> m >> s;
+    vector<int> dist(n + 1, 1e9);
+    vector<vector<array<int, 2>>> e(n + 1);
+    dist[s] = 0;
+    for(int i = 1;i <= m; ++i){
+        int u, v, w;
+        cin >> u >> v >> w;
+        e[u].push_back({v, w});
+    }
+    priority_queue<array<int, 2>, vector<array<int, 2>>, greater<>> q;
+    q.push({0, s});
     while(q.size()){
-        auto [d,u]=q.top();q.pop();
-        if(d>dist[u]) continue;
-        for(auto [v,w]:e[u]){
-            if(dist[v]>d+w){
-                dist[v]=d+w;
-                q.push({dist[v],v});
+        auto [d, u] = q.top();
+        q.pop();
+        if(d > dist[u]) continue;
+        for(auto [v, w] : e[u]){
+            if(d + w < dist[v]){
+                dist[v] = d + w;
+                q.push({dist[v], v});
             }
         }
     }
-    return dist;
-}
-void solve(){
-    cin>>n>>m>>s;
-    while(m--){
-        int u,v,w;
-        cin>>u>>v>>w;
-        e[u].push_back({v,w});
-    }
-    auto dist=dij();
-    for(int i=1;i<=n;i++) cout<<dist[i]<<" ";
-
-}
-signed main(){
-    std::ios_base::sync_with_stdio(false);
-    std::cin.tie(nullptr);
-    int t=1;
-    // cin>>t;
-    while(t--){
-        solve();
-    }return 0;
+    for(int i = 1;i <= n; ++i) cout << dist[i] << " ";
 }
 ~~~
 
@@ -351,63 +343,37 @@ signed main(){
 
 ### 3.2.1	 Prim算法 O(m log n)
 
- Prim的核心思想:  每次选择连接已选点集合 和 未选点集合之间的最小边 
+ Prim的核心思想:  每次选择连接已选点集合 和 未选点集合之间的最小边 ,直到连接n个点
 
 ~~~cpp
-#include <bits/stdc++.h>
-using namespace std;
-#define int long long
-
-const int N = 200010;
-
-vector<pair<int,int>> g[N]; // {邻点, 权值}
+const int N = 202020;
 bool vis[N];
-
-signed main(){
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
+vector<array<int, 2>> e[N];
+void solve(){
     int n, m;
     cin >> n >> m;
-
-    for(int i = 1; i <= n; i++) g[i].clear();
-
-    for(int i = 0; i < m; i++){
+    for(int i = 1;i <= m; ++i){
         int u, v, w;
         cin >> u >> v >> w;
-        g[u].push_back({v, w});
-        g[v].push_back({u, w}); // 无向图
+        e[u].push_back({v, w});
+        e[v].push_back({u, w});
     }
-
-    priority_queue<
-        pair<int,int>,
-        vector<pair<int,int>>,
-        greater<pair<int,int>>
-    > q;
-
+    priority_queue<array<int, 2>, vector<array<int, 2>>, greater<>> q;
     int ans = 0, cnt = 0;
-
-    q.push({0, 1}); // 从1开始
-
-    while(!q.empty()){
+    q.push({0, 1});
+    while(q.size() && cnt < n){
         auto [w, u] = q.top();
         q.pop();
-
         if(vis[u]) continue;
-
-        vis[u] = 1;
         ans += w;
         cnt++;
-
-        for(auto [v, ww] : g[u]){
-            if(!vis[v]){
-                q.push({ww, v});
-            }
+        vis[u] = 1;
+        for(auto [v, ww] : e[u]){
+            if(!vis[v]) q.push({ww, v});
         }
     }
-
-    if(cnt != n) cout << "orz\n"; // 不连通
-    else cout << ans << "\n";
+    if(cnt == n) cout << ans << "\n";
+    else cout << "orz\n";
 }
 ~~~
 
@@ -418,46 +384,48 @@ signed main(){
  因为 **树一定有 n-1 条边**。  这个算法是 **贪心算法**：每一步都选当前最小的边。 
 
 ~~~cpp
-#include <bits/stdc++.h>
-using namespace std;
-#define int long long
-const int N = 200010;
+const int N = 202020;
 int fa[N];
+void init(){
+    for(int i = 1;i < N; ++i) fa[i] = i;
+}
 int find(int x){
     if(fa[x] == x) return x;
-    return fa[x] = find(fa[x]); // 路径压缩
+    return fa[x] = find(fa[x]);
 }
-struct Edge{
-    int u, v, w;
-};
-signed main(){
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
+void merge(int u, int v){
+    int fu = find(u), fv = find(v);
+    if(fu != fv){
+        fa[fu] = fv;
+    }
+}
+bool same(int u, int v){
+    return find(u) == find(v);
+}
+void solve(){
+    init();
     int n, m;
     cin >> n >> m;
-    // 初始化并查集
-    for(int i = 1; i <= n; i++) fa[i] = i;
-    vector<Edge> e(m);
-    for(int i = 0; i < m; i++){
-        cin >> e[i].u >> e[i].v >> e[i].w;
+    vector<array<int, 3>> e(m + 1);
+    for(int i = 1;i <= m; ++i){
+        cin >> e[i][0] >> e[i][1] >> e[i][2];
     }
-    // 按权值排序
-    sort(e.begin(), e.end(), [](Edge a, Edge b){
-        return a.w < b.w;
+    sort(e.begin() + 1, e.end(), [](array<int, 3> a, array<int, 3> b){
+        return a[2] < b[2];
     });
-    int ans = 0;
-    int cnt = 0;
+    int cnt = 0, ans = 0;
     for(auto [u, v, w] : e){
-        int fu = find(u);
-        int fv = find(v);
-        if(fu == fv) continue; // 成环跳过
-        fa[fu] = fv;           // 合并
-        ans += w;
-        cnt++;
-        if(cnt == n - 1) break; // 已构成 MST
+        if(!same(u, v)){
+            merge(u, v);
+            cnt++;
+            ans += w;
+        }
+        if(cnt == n - 1) break;
     }
-    if(cnt != n - 1) cout << "orz\n"; // 不连通
-    else cout << ans << "\n";
+    if(cnt == n - 1){
+        cout << ans << "\n";
+    }
+    else cout << "orz\n";
 }
 ~~~
 
@@ -481,7 +449,6 @@ void solve(){
     int n; cin >> n;
     vector<int> deg(n + 1);          // 入度数组
     vector<vector<int>> e(n + 1);   // 邻接表
-    
     for(int i = 1; i <= n; i++){
         int x;
         while(cin >> x){
@@ -490,16 +457,13 @@ void solve(){
             deg[x]++;               // 统计入度
         }
     }
-    
     queue<int> q;
     for(int i = 1; i <= n; i++){
         if(!deg[i]) q.push(i);      // 入度为 0 的点入队
     }
-    
     while(q.size()){
         int t = q.front(); q.pop();
         cout << t << " ";           // 输出/记录拓扑序
-        
         for(auto i : e[t]){
             deg[i]--;               // 删边：终点入度减 1
             if(!deg[i]) q.push(i);  // 新入度为 0 的点入队
@@ -519,7 +483,6 @@ void solve(){
 ~~~cpp
 const int N = 2e5+10;
 int fa[N],sz[N];
-int mx;
 void init(){
     for(int i = 1; i < N; i++){
         fa[i] = i;
@@ -542,6 +505,9 @@ void merge(int x,int y){
             sz[fy] += sz[fx];
         }
     }
+}
+bool same(int u, int v){
+    return find(u) == find(v);
 }
 ~~~
 
@@ -595,6 +561,289 @@ void solve(){
     cout << ans.back();
 }
 ~~~
+
+## 4.3	线段树
+
+注意:懒标记会显著增加线段树时间复杂度，静态可以把懒标记删除
+
+### 4.3.1	区间和线段树
+
+~~~cpp
+const int maxn = 100005;
+i64 a[maxn], t[maxn << 2], lazy[maxn << 2];
+
+// 1. 更新父节点：和 = 左儿子 + 右儿子
+void Pushup(int k) {
+    t[k] = t[k << 1] + t[k << 1 | 1];
+}
+
+void build(int k, int l, int r) {
+    lazy[k] = 0;
+    if (l == r) {
+        t[k] = a[l];
+        return;
+    }
+    int m = l + ((r - l) >> 1);
+    build(k << 1, l, m);
+    build(k << 1 | 1, m + 1, r);
+    Pushup(k);
+}
+
+// 2. 懒标记下传：注意要乘以区间长度
+void Pushdown(int k, int l, int r) {
+    if (lazy[k] != 0) {
+        int m = l + ((r - l) >> 1);
+        
+        // 下传给左儿子：加上的值 = 标记 * 左区间长度
+        lazy[k << 1] += lazy[k];
+        t[k << 1] += lazy[k] * (m - l + 1);
+        
+        // 下传给右儿子：加上的值 = 标记 * 右区间长度
+        lazy[k << 1 | 1] += lazy[k];
+        t[k << 1 | 1] += lazy[k] * (r - m);
+        
+        lazy[k] = 0;
+    }
+}
+
+void update(int L, int R, i64 v, int l, int r, int k) {
+    if (L <= l && r <= R) {
+        lazy[k] += v;
+        // 当前节点增加量 = v * 当前管辖的区间长度
+        t[k] += v * (r - l + 1);
+        return;
+    }
+    // 注意 Pushdown 现在需要知道当前的 l 和 r 来计算子区间长度
+    Pushdown(k, l, r);
+    int m = l + ((r - l) >> 1);
+    if (L <= m) update(L, R, v, l, m, k << 1);
+    if (R > m)  update(L, R, v, m + 1, r, k << 1 | 1);
+    Pushup(k);
+}
+
+i64 query(int L, int R, int l, int r, int k) {
+    if (L <= l && r <= R) {
+        return t[k];
+    }
+    Pushdown(k, l, r);
+    int m = l + ((r - l) >> 1);
+    i64 res = 0; // 求和初始值为 0
+    if (L <= m) res += query(L, R, l, m, k << 1);
+    if (R > m)  res += query(L, R, m + 1, r, k << 1 | 1);
+    return res;
+}
+
+void solve() {
+    int n, q;
+    if (!(cin >> n >> q)) return;
+    for (int i = 1; i <= n; i++) cin >> a[i];
+    build(1, 1, n);
+
+    while (q--) {
+        int op;
+        cin >> op;
+        if (op == 1) { // 区间加
+            int x, y;
+            i64 k;
+            cin >> x >> y >> k;
+            update(x, y, k, 1, n, 1);
+        } else { // 区间求和
+            int x, y;
+            cin >> x >> y;
+            cout << query(x, y, 1, n, 1) << "\n";
+        }
+    }
+}
+~~~
+
+### 4.3.2	区间最大值线段树
+
+~~~cpp
+const int maxn = 100005;
+i64 a[maxn], t[maxn << 2], lazy[maxn << 2];
+// 更新父节点信息（当前是最大值 RMQ）
+void Pushup(int k) {
+    t[k] = max(t[k << 1], t[k << 1 | 1]);
+}
+// 递归建树：build(1, 1, n)
+void build(int k, int l, int r) {
+    lazy[k] = 0; // 习惯性初始化，防止多组数据干扰
+    if (l == r) {
+        t[k] = a[l];
+        return;
+    }
+    int m = l + ((r - l) >> 1);
+    build(k << 1, l, m);
+    build(k << 1 | 1, m + 1, r);
+    Pushup(k);
+}
+// 懒标记下传
+void Pushdown(int k) {
+    if (lazy[k] != 0) { // 如果有标记
+        lazy[k << 1] += lazy[k];
+        lazy[k << 1 | 1] += lazy[k];
+        t[k << 1] += lazy[k];
+        t[k << 1 | 1] += lazy[k];
+        lazy[k] = 0; // 必须归零
+    }
+}
+// 区间修改：update(L, R, v, 1, n, 1)
+void update(int L, int R, i64 v, int l, int r, int k) {
+    if (L <= l && r <= R) { // 当前节点被目标区间完全覆盖
+        lazy[k] += v;
+        t[k] += v;
+        return;
+    }
+    Pushdown(k); // 只有不完全覆盖且需要继续往下走时才 pushdown
+    int m = l + ((r - l) >> 1);
+    if (L <= m) update(L, R, v, l, m, k << 1);
+    if (R > m)  update(L, R, v, m + 1, r, k << 1 | 1);
+    Pushup(k); // 回溯时更新
+}
+
+// 区间查询：query(L, R, 1, n, 1)
+i64 query(int L, int R, int l, int r, int k) {
+    if (L <= l && r <= R) {
+        return t[k];
+    }
+    Pushdown(k);
+    int m = l + ((r - l) >> 1);
+    i64 res = -INF; 
+    if (L <= m) res = max(res, query(L, R, l, m, k << 1));
+    if (R > m)  res = max(res, query(L, R, m + 1, r, k << 1 | 1));
+    return res;
+}
+
+void solve() {
+    int n, q;
+    if (!(cin >> n >> q)) return;
+    for (int i = 1; i <= n; i++) cin >> a[i];
+
+    build(1, 1, n);
+
+    while (q--) {
+        int opt;
+        cin >> opt;
+        if (opt == 1) { // 修改
+            int L, R;
+            i64 v;
+            cin >> L >> R >> v;
+            update(L, R, v, 1, n, 1);
+        } else { // 查询
+            int L, R;
+            cin >> L >> R;
+            cout << query(L, R, 1, n, 1) << "\n";
+        }
+    }
+}
+~~~
+
+### 4.3.3	区间加乘和线段树
+
+~~~cpp
+const int maxn = 100005;
+i64 a[maxn], t[maxn << 2];
+i64 add[maxn << 2], mul[maxn << 2];
+i64 n, m, p; // p 为模数，如果题目没要求模，可以去掉相关取模
+
+void Pushup(int k) {
+    t[k] = (t[k << 1] + t[k << 1 | 1]) % p;
+}
+
+void build(int k, int l, int r) {
+    add[k] = 0;
+    mul[k] = 1; // 乘法标记初始化为 1
+    if (l == r) {
+        t[k] = a[l] % p;
+        return;
+    }
+    int mid = l + ((r - l) >> 1);
+    build(k << 1, l, mid);
+    build(k << 1 | 1, mid + 1, r);
+    Pushup(k);
+}
+
+// 核心：下传函数
+void push_eval(int k, int l, int r, i64 m_v, i64 a_v) {
+    // 1. 更新当前节点的值：(值 * 乘) + (加 * 长度)
+    t[k] = (t[k] * m_v % p + a_v * (r - l + 1) % p) % p;
+    // 2. 更新乘法标记：旧乘 * 新乘
+    mul[k] = mul[k] * m_v % p;
+    // 3. 更新加法标记：(旧加 * 新乘) + 新加
+    add[k] = (add[k] * m_v % p + a_v) % p;
+}
+
+void Pushdown(int k, int l, int r) {
+    int mid = l + ((r - l) >> 1);
+    // 把当前的 mul[k] 和 add[k] 传给左右儿子
+    push_eval(k << 1, l, mid, mul[k], add[k]);
+    push_eval(k << 1 | 1, mid + 1, r, mul[k], add[k]);
+    // 标记归位
+    mul[k] = 1;
+    add[k] = 0;
+}
+
+// 区间乘法
+void update_mul(int L, int R, i64 v, int l, int r, int k) {
+    if (L <= l && r <= R) {
+        push_eval(k, l, r, v, 0); // 加法增量为 0
+        return;
+    }
+    Pushdown(k, l, r);
+    int mid = l + ((r - l) >> 1);
+    if (L <= mid) update_mul(L, R, v, l, mid, k << 1);
+    if (R > mid)  update_mul(L, R, v, mid + 1, r, k << 1 | 1);
+    Pushup(k);
+}
+
+// 区间加法
+void update_add(int L, int R, i64 v, int l, int r, int k) {
+    if (L <= l && r <= R) {
+        push_eval(k, l, r, 1, v); // 乘法增量为 1
+        return;
+    }
+    Pushdown(k, l, r);
+    int mid = l + ((r - l) >> 1);
+    if (L <= mid) update_add(L, R, v, l, mid, k << 1);
+    if (R > mid)  update_add(L, R, v, mid + 1, r, k << 1 | 1);
+    Pushup(k);
+}
+
+i64 query(int L, int R, int l, int r, int k) {
+    if (L <= l && r <= R) return t[k];
+    Pushdown(k, l, r);
+    int mid = l + ((r - l) >> 1);
+    i64 res = 0;
+    if (L <= mid) res = (res + query(L, R, l, mid, k << 1)) % p;
+    if (R > mid)  res = (res + query(L, R, mid + 1, r, k << 1 | 1)) % p;
+    return res;
+}
+void solve() {
+    // 这里的 p 建议设为一个大质数（如 1e9+7）或者题目要求的模数
+    // 如果没有模数要求，把代码里所有的 % p 去掉即可
+    cin >> n >> m >> p; 
+    for (int i = 1; i <= n; i++) cin >> a[i];
+    build(1, 1, n);
+
+    while (m--) {
+        int op, x, y;
+        i64 k;
+        cin >> op;
+        if (op == 1) { // 乘法
+            cin >> x >> y >> k;
+            update_mul(x, y, k, 1, n, 1);
+        } else if (op == 2) { // 加法
+            cin >> x >> y >> k;
+            update_add(x, y, k, 1, n, 1);
+        } else { // 求和
+            cin >> x >> y;
+            cout << query(x, y, 1, n, 1) << "\n";
+        }
+    }
+}
+~~~
+
+
 
 # 5	动态规划
 
@@ -740,29 +989,114 @@ void solve() {
 
 ## 6.1	单调栈
 
+#### 核心思想
+
+维护一个栈，使得栈内元素始终保持单调性：
+
+- **单调递增栈**：从栈底到栈顶元素**递增**（栈顶最小）
+- **单调递减栈**：从栈底到栈顶元素**递减**（栈顶最大）
+
+#### 基本原理
+
+##### 入栈规则（以单调递增栈为例）
+
+1. 当栈为空，直接入栈
+2. 当新元素 **>=** 栈顶元素，直接入栈（保持递增）
+3. 当新元素 **<** 栈顶元素，**不断弹出栈顶**，直到满足递增条件，然后入栈
+
+ **每当需要弹出时，就找到了栈顶元素右侧第一个比它小的元素（单调递增栈）**
+
+#### 1.求左右最小
+
 ~~~cpp
-void solve() {
+void solve(){
     int n;
     cin >> n;
-    vector<int> a(n + 1);
-    vector<int> st;      // 单调栈：存储下标
-    vector<int> f(n + 1); // 存储结果：右侧第一个比 a[i] 大的元素的下标
-    for (int i = 1; i <= n; i++) cin >> a[i];
-    // 从右往左遍历
-    for (int i = n; i >= 1; i--) {
-        // 维护单调性：如果栈顶元素不比当前元素大，它就不可能是左边元素的“第一个更大值”，弹出
-        while (!st.empty() && a[st.back()] <= a[i]) {
+    vector<int> p(n + 1);
+    for(int i = 1;i <= n; ++i) cin >> p[i];
+    vector<int> st, l(n + 1, -1), r(n + 1, n + 1);
+    for(int i = 1;i <= n; ++i){
+        while(st.size() && p[st.back()] < p[i]){
+            r[st.back()] = i;
             st.pop_back();
         }
-        // 栈顶就是右侧第一个比 a[i] 大的下标
-        if (!st.empty()) {
-            f[i] = st.back();
-        } else {
-            f[i] = 0; // 说明右侧没有比它更大的
-        }
-        // 将当前下标入栈，供左侧元素参考
+        if(st.size()) l[i] = st.back();
+        else l[i] = 0;
         st.push_back(i);
     }
 }
+~~~
+
+2.
+
+# 7	Trick
+
+## 7.1	格式输出，防止多余空格
+
+~~~cpp
+cout << res << " \n"[j == n];
+~~~
+
+等价于
+
+~~~cpp
+if (j == n) {
+    cout << res << "\n";   // 最后一个数后面换行
+} else {
+    cout << res << " ";    // 非最后一个数后面加空格
+}
+~~~
+
+### 原理
+
+`" \n"` 是一个字符串，长度为 3：
+
+- 下标 0：`' '`（空格）
+- 下标 1：`'\n'`（换行符）
+- 下标 2：`'\0'`（字符串结束符）
+
+`[j == n]` 是一个布尔表达式：
+
+- 当 `j == n` 时，值为 `true`（在 C++ 中转换为整数 `1`）
+- 当 `j != n` 时，值为 `false`（转换为整数 `0`）
+
+所以：
+
+- `j != n` → `" \n"[0]` → 输出**空格**
+- `j == n` → `" \n"[1]` → 输出**换行符**
+
+
+
+## 7.2	O(1)判断组合数奇偶性
+
+$\binom{n}{m}$为奇数$\Leftrightarrow(m\& (n-m))=0$
+
+
+
+## 7.3	去重
+
+- **作用**：对容器进行去重（排序 + 去重）
+- **公式**：`sort + unique + erase` 三件套
+- **记忆**：`erase(unique(...), end())` 是固定搭配
+- **适用**：vector、string、deque 等支持 `erase` 的容器
+- **注意**：普通数组和 `array` 不能用 `erase`，只能记录新长度
+
+1. **全局去重（所有重复只留一个）** → **需要排序**
+
+~~~cpp
+vector<int> v = {5, 2, 3, 2, 1, 5, 4};
+// 需要排序
+sort(v.begin(), v.end());
+v.erase(unique(v.begin(), v.end()), v.end());
+// 结果：{1, 2, 3, 4, 5}
+~~~
+
+2. **只去除连续重复** → **不需要排序**
+
+~~~cpp
+vector<int> v = {1, 1, 2, 2, 3, 1, 1, 4};
+// 不需要排序
+v.erase(unique(v.begin(), v.end()), v.end());
+// 结果：{1, 2, 3, 1, 4}（只去掉相邻的）
 ~~~
 
