@@ -1100,3 +1100,109 @@ v.erase(unique(v.begin(), v.end()), v.end());
 // 结果：{1, 2, 3, 1, 4}（只去掉相邻的）
 ~~~
 
+## 7.4 对拍
+
+gen.cpp
+
+~~~cpp
+#include<bits/stdc++.h>
+using namespace std;
+#define debug(x) cerr << #x << ": " << x << "\n";
+using i64 = long long;
+using i128 = __int128;
+using ld = long double;
+const i64 INF = 0x3f3f3f3f3f3f3f3f;
+const i64 mod = 998244353;
+mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
+
+// ==================== 随机数工具箱 ====================
+
+// 1. 生成 [l, r] 闭区间内的随机整数 (支持 long long)
+i64 get_rand(i64 l, i64 r) {
+    uniform_int_distribution<i64> dist(l, r);
+    return dist(rng);
+}
+
+// 2. 生成随机小写字母
+char get_rand_lowercase() {
+    return (char)('a' + get_rand(0, 25));
+}
+
+// 3. 生成随机大写字母
+char get_rand_uppercase() {
+    return (char)('A' + get_rand(0, 25));
+}
+
+// 4. 生成一个长度为 n，元素在 [l, r] 之间的随机数组
+vector<i64> get_rand_array(int n, i64 l, i64 r) {
+    vector<i64> a(n);
+    for (int i = 0; i < n; i++) {
+        a[i] = get_rand(l, r);
+    }
+    return a;
+}
+
+// 5. 生成一个 1 到 n 的随机排列 (Permutation)
+vector<int> get_rand_permutation(int n) {
+    vector<int> p(n);
+    iota(p.begin(), p.end(), 1); // 填充 1, 2, ..., n
+    shuffle(p.begin(), p.end(), rng); // 随机打乱
+    return p;
+}
+
+// ==================== 数据生成逻辑 ====================
+void generate_data() {
+    // 示例：生成一道常规题目的输入
+    // 假设题目要求：第一行输入 n 和 k，第二行输入 n 个数的数组
+    
+    int n = get_rand(1, 1000); // 随机生成数据规模 n
+    i64 k = get_rand(1, 1e9);  // 随机生成 k
+    cout << n << " " << k << "\n";
+    
+    auto a = get_rand_array(n, 1, 1e9);
+    for (int i = 0; i < n; i++) {
+        cout << a[i] << (i == n - 1 ? "" : " ");
+    }
+    cout << "\n";
+}
+
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    // 默认生成 1 组测试数据
+    generate_data();
+    
+    /*
+    // 如果你要对拍的题目支持 T 组数据，可以解开这里的注释：
+    int t = 5; // 每次对拍喂 5 组数据
+    cout << t << "\n";
+    while (t--) {
+        generate_data();
+    }
+    */
+    
+    return 0;
+}
+~~~
+
+duipai.cpp
+
+~~~cpp
+#include<bits/stdc++.h>
+using namespace std;
+using i64 = long long;
+int main(){
+    i64 cnt = 0;
+    while(1){
+        system("gen.exe > in.txt");
+        system("std.exe < in.txt > std.txt");
+        system("solve.exe < in.txt> my.txt");
+        if(system("fc std.txt my.txt")) break;
+        cout << "AC" << ++cnt << "\n";
+    }
+    cout << "WA" << "\n";
+    return 0;
+}
+~~~
+
